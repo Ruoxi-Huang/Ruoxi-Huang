@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -86,6 +87,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="rl_portfolio_optimisation"
+          altZh="控制变量对照：累计净主动净值曲线，以及年化超额收益与实现跟踪误差的关系"
+          altEn="Control-variable comparison: cumulative net active NAV, and annualised active return against realised tracking error"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="控制变量对照，84 期样本外（2019-01 – 2025-12）：同一份 alpha、同一批调仓日、同一套约束与 5bp 单边成本。a 累计净主动净值（期初 = 1）——深黑实线为现有优化器，中灰虚线为 SAC 倾斜策略，浅灰点划线为朴素 alpha 倾斜，水平细线为零主动基准。b 风险预算的使用与回报——横轴为实现跟踪误差，纵轴为年化超额收益，空心圆为零主动基准，右侧细线为 15% 的 TE 预算上限；RL 只用到 2.8% 的实现 TE。样本内校准尺度的倾斜策略与朴素倾斜几乎重合（年化 1.02% 对 1.05%、实现 TE 4.12% 对 4.14%），故未单独绘出。"
+            en="Control-variable comparison over 84 out-of-sample periods (2019-01 to 2025-12): same alpha, same rebalance dates, same constraints and 5bp one-way costs. a — cumulative net active NAV (starts at 1): solid ink is the existing optimizer, dashed mid grey the SAC tilt policy, dash-dot light grey the naive alpha tilt, and the thin horizontal line the zero-active benchmark. b — risk budget used versus earned: realised tracking error on the x-axis, annualised active return on the y-axis, the hollow circle the zero-active benchmark, and the thin vertical line the 15% TE cap; the RL policy uses only 2.8% realised TE. The in-sample calibrated tilt sits almost on top of the naive tilt (1.02% against 1.05% annualised, 4.12% against 4.14% realised TE) and is therefore not drawn separately."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}notes/roe-quality-factors/`}>

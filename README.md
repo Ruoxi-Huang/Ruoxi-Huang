@@ -107,10 +107,16 @@ references/*.md                           早期参考过的设计体系，不�
 ```bash
 python scripts/portfolio/build_p2_expert_oof_dataset.py   # 只在数据需要重建时跑
 python scripts/portfolio/p2_figures.py                    # 出图 + 对齐/碰撞审计
+python scripts/portfolio/note_figures.py                  # 研究笔记配图（读 outputs/ 里已落盘的结果）
 ```
 
 出图的脚本会顺带跑口径检查：面板对齐不通过会直接报错，PDF 碰撞审计的结论会打印在
 终端里。改完图别忘了同步页面图注里对各条柱子的描述。
+
+`note_figures.py` 只画已经落盘的结果（默认读 `outputs/research/rl_portfolio_comparison/`），
+不重跑研究；给新笔记配图时在它的 `FIGURES` 表里加一个 builder 就行。研究目录里原生的
+PNG **不要直接引用**：那是 matplotlib 默认配色（蓝柱、灰网格）且只有英文，与站点
+「单一墨色阶梯 + 中英双版」的规则冲突（见 `DESIGN.md`）。
 
 ## 内容原则
 

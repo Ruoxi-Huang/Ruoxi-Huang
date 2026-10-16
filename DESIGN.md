@@ -129,8 +129,16 @@ shadows, icons standing in for drawn marks, and a card inside a card.
 ## Keeping figures inside it
 
 Data figures are generated, not hand-coloured: `scripts/portfolio/p2_figures.py`
-holds the ink ladder and the rule that the series a chart argues for is the
-darkest. Hatch fills were tried for the rejected alternative and removed — the
+and `scripts/portfolio/note_figures.py` hold the ink ladder and the rule that the
+series a chart argues for is the darkest. Both run the same two gates before
+exporting anything: the panel-alignment check, then the PDF collision audit.
+
+The PNGs that research runs leave in `outputs/` are not site assets — they are
+matplotlib defaults (blue bars, grey grid) and English-only. A note page gets its
+figure by re-drawing the same results through `note_figures.py`, so the encoding,
+the value ladder and the bilingual labels match the rest of the site.
+
+Hatch fills were tried for the rejected alternative and removed — the
 diagonal strokes of a clipped bar cross the panel title in the PDF stream and
 the collision audit fails on a stroke no reader can see. The number printed on
 every bar does that job instead.
