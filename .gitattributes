@@ -1,0 +1,7 @@
+# 统一行尾：仓库内存 LF，Windows 检出时也不改写，避免每次提交都出现整文件改动。
+* text=auto eol=lf
+
+# 二进制资源不做行尾转换。
+*.png binary
+*.pdf binary
+*.feather binary
