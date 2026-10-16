@@ -736,6 +736,12 @@ figure {
   font-weight: 600;
 }
 
+/* a separator between sibling values inside one row */
+.sep {
+  color: var(--ink-3);
+  padding: 0 var(--s-8);
+}
+
 figure img {
   display: block;
   width: 100%;
