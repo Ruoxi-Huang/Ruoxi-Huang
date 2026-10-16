@@ -3,7 +3,8 @@ import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
 import Shot from "../../components/Shot.astro";
 
-const base = import.meta.env.BASE_URL;
+// 子路径部署时 BASE_URL 不带结尾斜杠，统一补上。
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 const diagramZh = `${base}diagrams/p2_dynamic_blend_routing_zh.svg`;
 const diagramEn = `${base}diagrams/p2_dynamic_blend_routing_en.svg`;
 

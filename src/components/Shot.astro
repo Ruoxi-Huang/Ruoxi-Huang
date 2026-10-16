@@ -10,7 +10,8 @@ interface Props {
 }
 
 const { name, altZh, altEn } = Astro.props;
-const base = import.meta.env.BASE_URL;
+// 子路径部署时 BASE_URL 不带结尾斜杠，统一补上。
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 const zh = `${base}figures/${name}_zh.png`;
 const en = `${base}figures/${name}_en.png`;
 ---
