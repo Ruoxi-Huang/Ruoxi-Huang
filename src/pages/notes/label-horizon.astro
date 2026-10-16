@@ -41,8 +41,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="论文（Song et al., arXiv:2602.03395）指出最优训练标签周期往往不等于评估周期，且最优周期随信号被定价的速度与噪声累积而移动；其验证建立在分钟级数据上。"
-              en="The paper (Song et al., arXiv:2602.03395) shows that the best training label horizon is often not the evaluation horizon, and that the optimum shifts with how fast the signal is priced in relative to noise accumulation. Its evidence comes from minute-level data."
+              zh="《The Label Horizon Paradox: Rethinking Supervision Targets in Financial Forecasting》（Song, Liu & Chen，arXiv:2602.03395v5）。论文指出最优训练标签周期往往不等于评估周期，并把这种现象归因于两个过程的竞争：信号随周期实现，噪声随周期累积（定理 3.2），据此给出性能的对数分解（式 5）——性能约等于「代理 IC × 对齐度 ρ(r_δ, r_20)」的乘积。落地上它提出一个双层（bi-level）优化框架，把标签周期当作可学参数，在一次训练内自动确定最优代理标签；验证覆盖中证 300 / 500 / 1000 与标普 500，周期为分钟级，十种网络结构。"
+              en="“The Label Horizon Paradox: Rethinking Supervision Targets in Financial Forecasting” (Song, Liu & Chen, arXiv:2602.03395v5). The paper shows that the best training label horizon is often not the evaluation horizon and attributes it to two competing processes — signal realised with the horizon, noise accumulating with it (Theorem 3.2) — giving a log-performance decomposition (Eq. 5) in which performance is approximately the product of the proxy IC and an alignment term ρ(r_δ, r_20). Operationally it proposes a bi-level framework that treats the label horizon as a learnable parameter and identifies the best proxy label within a single training run; validation covers CSI 300 / 500 / 1000 and the S&P 500 at minute-level horizons across ten architectures."
             />
           </div>
         </div>
@@ -51,8 +51,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="不重复论文的分钟级实验，而是将该思路落实到生产月频 linear + XGBoost + GRU 模型：各专家依自身代理标签选择周期，并附加一条独立性去重规则。"
-              en="Rather than repeating the paper's minute-level experiment, the idea is ported to the production monthly linear + XGBoost + GRU model: each expert selects its horizon from its own proxy labels, with a distinctness rule added."
+              zh="论文的双层优化需要在训练内部反向传播周期参数，生产模型是月频、模型族也不同，因此不照搬：改为把式 5 的分解做成一离线评分（评分 = 代理 IC × 对齐度），在候选网格 1/2/3/5/8/13/20 上为每个专家选期，另加一条独立性去重规则；对齐度只用收益计算，与模型无关。"
+              en="The paper's bi-level objective back-propagates through the horizon parameter inside training; the production model is monthly and a different model family, so that is not ported. Instead Eq. 5 becomes an offline score (score = proxy IC × alignment) evaluated per expert over the grid 1/2/3/5/8/13/20, with a distinctness rule added on top; the alignment term is computed from returns only and is model-free."
             />
           </div>
         </div>
@@ -61,8 +61,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="选期规则按论文的乘法分解打分（评分 = 代理 IC × 对齐度），候选网格为 1/2/3/5/8/13/20 个交易日，评估周期固定 20 日。实际运行的 144 次选期全部落在 20 日，即与评估周期一致，独立性去重规则因此没有触发。相对 Linear 锚，模型 RankIC 均值提高 0.29pp（4.05%、IR 0.234），幅度有限。"
-              en="The selection rule scores each candidate with the paper's multiplicative decomposition (score = proxy IC × alignment) over the grid 1/2/3/5/8/13/20 trading days, with the evaluation horizon fixed at 20. All 144 recorded selections land on 20 — the evaluation horizon itself — so the distinctness rule never triggers. Against the Linear anchor the model's mean RankIC rises by 0.29pp (4.05%, IR 0.234), a limited gain."
+              zh="本地的分解项与论文一致：对齐度 ρ(r_δ, r_20) 随周期单调上升（1 日 0.19 → 20 日 1.000，20 日即评估周期），而代理 IC 在中途见顶后回落（GRU 12 日 0.117、XGBoost 9 日 0.068、Linear 端部 0.052）——两者相乘使评分偏向长端。实际运行的 144 次选期因此全部落在 20 日，独立性去重规则没有触发。相对 Linear 锚，模型 RankIC 均值提高 0.29pp（4.05%、IR 0.234），幅度有限。"
+              en="Locally the decomposition behaves as the paper describes: alignment ρ(r_δ, r_20) rises monotonically with the horizon (0.19 at one day to 1.000 at twenty, the evaluation horizon), while the proxy IC peaks in the middle and falls back (GRU 0.117 at twelve days, XGBoost 0.068 at nine, Linear 0.052 at the long end) — their product tilts the score towards the long end. All 144 recorded selections therefore land on 20 days and the distinctness rule never triggers. Against the Linear anchor the model's mean RankIC rises by 0.29pp (4.05%, IR 0.234), a limited gain."
             />
           </div>
         </div>
@@ -81,8 +81,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="这是对该思路的实现，而非对论文分钟级实验的复现；更换股票池、频率或标签定义均需重跑；周期选择基于同一段历史，存在选择偏差。另外，落盘的分候选评分无法还原「恒选 20 日」这一决策——网格内均值最高点是 Linear 与 XGBoost 的 20 日、GRU 的 13 日——选期环节的取舍需要补充记录才能复核。"
-              en="This is an implementation of the idea rather than a reproduction of the paper's minute-level experiment; a different universe, frequency or label definition requires its own run; the horizons were selected on the same history they are judged on, so selection bias remains. The stored per-candidate scores also do not reproduce the “always 20” decision — within the grid the highest mean is 20 days for Linear and XGBoost but 13 days for GRU — so the selection step needs fuller logging before it can be audited."
+              zh="论文的双层优化、分钟级周期与十种网络结构都没有复现，因此这里只能算「把分解式当离线评分使用」，不构成对论文方法的验证；更换股票池、频率或标签定义均需重跑；周期选择基于同一段历史，存在选择偏差。另外，落盘的分候选评分无法还原「恒选 20 日」这一决策——网格内均值最高点是 Linear 与 XGBoost 的 20 日、GRU 的 13 日——选期环节的取舍需要补充记录才能复核。"
+              en="The paper's bi-level optimisation, minute-level horizons and ten architectures are not reproduced, so this is “using the decomposition as an offline score” rather than a validation of the paper's method; a different universe, frequency or label definition requires its own run; the horizons were selected on the same history they are judged on, so selection bias remains. The stored per-candidate scores also do not reproduce the “always 20” decision — within the grid the highest mean is 20 days for Linear and XGBoost but 13 days for GRU — so the selection step needs fuller logging before it can be audited."
             />
           </div>
         </div>
@@ -97,8 +97,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
         <figcaption>
           <Bi
             tag="span"
-            zh="选期结果，2018-03 – 2026-07 共 48 次选期、每位专家一次。a 选中的周期：纵轴为候选网格（1/2/3/5/8/13/20，分类轴），三个专家 48 次全部落在 20 日，没有任何一次选到更短的周期。b 候选周期的平均评分（评分 = 代理 IC × 对齐度，只计入被接受的候选；横轴为实际被打分的 14 个周期）：20 日在 Linear 与 XGBoost 上均值最高，GRU 的均值最高点是 13 日——按落盘评分重算不能还原「恒选 20 日」这一结果。"
-            en="Selections from 2018-03 to 2026-07, 48 rounds with one choice per expert. a — the chosen horizon: the y-axis is the candidate grid (1/2/3/5/8/13/20, categorical) and all 48 selections land on 20 days, with no shorter horizon ever chosen. b — mean score by candidate horizon (score = proxy IC × alignment, accepted candidates only, across the 14 horizons actually scored): 20 days has the highest mean for Linear and XGBoost while GRU peaks at 13 days — so recomputing from the stored scores does not reproduce the “always 20” outcome."
+            zh="选期结果，2018-03 – 2026-07 共 48 次选期、每位专家一次。a 选中的周期：纵轴为候选网格（1/2/3/5/8/13/20，分类轴），三个专家 48 次全部落在 20 日，没有任何一次选到更短的周期。b 论文式 5 的两个分解项（只计入被接受的候选，横轴为实际被打分的 14 个周期）：深黑为对齐度 ρ(r_δ, r_20)，与模型无关，随周期单调升至 1.000；三条灰线为各专家的代理 IC，均在 9–13 日见顶后回落。两者相乘即选期评分——长端因此占优，但这仍无法解释 GRU 为何也选 20 日（其网格内均值最高点是 13 日）。"
+            en="Selections from 2018-03 to 2026-07, 48 rounds with one choice per expert. a — the chosen horizon: the y-axis is the candidate grid (1/2/3/5/8/13/20, categorical) and all 48 selections land on 20 days, with no shorter horizon ever chosen. b — the two terms of the paper's Eq. 5 (accepted candidates only, across the 14 horizons actually scored): ink is the model-free alignment ρ(r_δ, r_20), rising monotonically to 1.000, while the three grey lines are each expert's proxy IC, all peaking between nine and thirteen days. Their product is the selection score, which favours the long end — yet that still does not explain why GRU also lands on 20 days, since its in-grid mean peaks at 13."
           />
         </figcaption>
       </figure>
