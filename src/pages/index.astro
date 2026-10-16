@@ -1,0 +1,374 @@
+---
+import Base from "../layouts/Base.astro";
+import Bi from "../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+const p2 = `${base}projects/p2-dynamic-blend/`;
+
+/**
+ * This page is an index, not a report. It carries what the body of work covers
+ * and where to go next. Every performance figure, chart and holdout number
+ * belongs to a project page — see DESIGN.md for why.
+ */
+const ledger = [
+  {
+    v: "5",
+    zh: "项目：1 个端到端平台 + 4 个专题与工具",
+    en: "Projects: one platform plus four deep dives and tools",
+  },
+  {
+    v: "149",
+    zh: "标准化因子面板",
+    en: "Standardised factor panels",
+  },
+  { v: "400+", zh: "自动化测试用例", en: "Automated test cases" },
+  { v: "9", zh: "研究与复现笔记", en: "Research and reproduction notes" },
+];
+
+const projects = [
+  {
+    n: "02",
+    zh: "中证 800 指数增强研究平台",
+    en: "CSI 800 enhanced-index research platform",
+    dzh: "覆盖数据接入、因子工程、Alpha 建模、风险分解、约束优化与日频回测的端到端系统；下列两个专题均在该平台内实现。",
+    den: "An end-to-end system spanning data ingestion, factor engineering, alpha modelling, risk decomposition, constrained optimisation and daily backtesting; both deep dives below are implemented within it.",
+  },
+  {
+    n: "03",
+    zh: "类 Barra CNE6 风险模型",
+    en: "Barra CNE6-style risk model",
+    dzh: "因子暴露生产 + 因子 / 个股协方差估计：Newey-West、特征值调整、VRA、贝叶斯收缩。",
+    den: "Factor-exposure production plus factor / stock covariance estimation: Newey-West, eigenvalue adjustment, VRA, Bayesian shrinkage.",
+  },
+  {
+    n: "04",
+    zh: "AlphaCube 三维张量因子挖掘",
+    en: "AlphaCube tensor factor mining",
+    dzh: "(股票, 交易日, 分钟) 立方体上的 GP 与四个 RL miner，含逐 bit 精度契约。",
+    den: "GP and four RL miners on a (stock, day, minute) cube, with bit-exact precision contracts.",
+  },
+  {
+    n: "05",
+    zh: "只读数据库因子回测编排层",
+    en: "Read-only database factor-backtest runner",
+    dzh: "在只读 PostgreSQL / MySQL 上自动发现、审计并批量回测因子。",
+    den: "Automatic discovery, audit and batch backtesting of factors on read-only PostgreSQL / MySQL.",
+  },
+];
+
+const components = [
+  {
+    slug: "factor-factory",
+    tagZh: "组件 01",
+    tagEn: "Component 01",
+    zh: "因子工厂与数据管道",
+    en: "Factor factory and data pipeline",
+    dzh: "149 个标准化因子面板的构建与维护：97 个量价、45 个基本面，以及 7 个 ROE 研究因子；PostgreSQL 全量 / 增量重建、追加去重、本地 Feather 快照；新鲜度、缺失覆盖率、相关性与版本对比校验。",
+    den: "Construction and upkeep of 149 standardised factor panels — 97 price-volume, 45 fundamental and 7 ROE research factors — on full and incremental PostgreSQL rebuilds, with append-and-deduplicate, local Feather snapshots, plus freshness, coverage, correlation and version checks.",
+  },
+  {
+    slug: "single-factor-harness",
+    tagZh: "组件 02",
+    tagEn: "Component 02",
+    zh: "单因子检验体系",
+    en: "Single-factor test harness",
+    dzh: "分组收益、RankIC、多空净值，以及历史对照近期的稳定性标记；信号取调仓日收盘价，收益自其后开始计。示例：WVAD 在 2005–2026 的 198 个有效期上 RankIC −0.0405、多空年化 −12.11%，判定为不通过。",
+    den: "Grouped returns, RankIC, long-short NAV and historical-versus-recent stability flags; signals use the rebalance-day close and returns start strictly after it. Example: WVAD records RankIC −0.0405 and −12.11% annualised long-short over 198 valid periods (2005–2026) and fails the screen.",
+  },
+];
+
+const notes = [
+  {
+    slug: "factor-resonance",
+    tagZh: "复现",
+    tagEn: "Reproduction",
+    zh: "因子共振（申万宏源）",
+    en: "Factor resonance (SWS Research)",
+    dzh: "把个股截面因子升维成因子组合的时间序列；报告的边界也一并复现：月频聚合在沪深 300 仍有效，在中证 500 明显变差。",
+    den: "Lifts a cross-sectional stock factor into a time series of factor portfolios. The report's own boundary reproduces too: monthly aggregation still works on CSI 300 and clearly degrades on CSI 500.",
+  },
+  {
+    slug: "timing-momentum",
+    tagZh: "复现",
+    tagEn: "Reproduction",
+    zh: "时点动量（国信金工）",
+    en: "Timing momentum (Guosen)",
+    dzh: "复现行业轮动层；报告宣称的年化 60.55% 在当前数据条件下无法验证，北向动量因数据止于 2024-08 未能复现。",
+    den: "The industry-rotation layer reproduces. The report's claimed 60.55% annualised return cannot be verified with the available data, and northbound momentum is unreproducible because the data stops in 2024-08.",
+  },
+  {
+    slug: "three-part-strategy",
+    tagZh: "复现",
+    tagEn: "Reproduction",
+    zh: "三部分策略（择时 / 戴维斯双击 / 沪深 300 增强）",
+    en: "Three-part strategy (timing, Davis double-play, CSI 300 enhancement)",
+    dzh: "择时年化 4.62%，低于中证 800 的 4.95%，不用于独立择时；戴维斯双击年化 16.66% 但换手高且未计成本；沪深 300 增强 IR 0.69，三项中最值得推进。",
+    den: "Timing returns 4.62% a year against the CSI 800's 4.95%, so it is not used standalone; the Davis double-play earns 16.66% but carries high turnover and no cost model; the CSI 300 enhancement, at IR 0.69, is the one worth taking further.",
+  },
+  {
+    slug: "domain-constraint-sweep",
+    tagZh: "专题",
+    tagEn: "Study",
+    zh: "分域约束扫描（中证 800）",
+    en: "Domain-constraint sweep (CSI 800)",
+    dzh: "在原报告方向下，分域约束对本组合产生负向影响；改为相反方向与对应分位后 IR 0.602 → 0.747，并通过 20 组安慰剂对照，但配对 t 值约 1.0，幅度仍待验证。",
+    den: "Under the report's own direction these constraints affect the portfolio negatively; reversing the direction and the quantiles lifts IR from 0.602 to 0.747 and survives a 20-group placebo test, though a paired t of about 1.0 leaves the magnitude unverified.",
+  },
+  {
+    slug: "skew-kurtosis-constraints",
+    tagZh: "专题",
+    tagEn: "Study",
+    zh: "偏度 / 峰度约束（中证 800）",
+    en: "Skew and kurtosis constraints (CSI 800)",
+    dzh: "重算基线与存量组合的逐月权重相关 0.9971，说明差异只来自约束口径；同时发现生产组合的偏度方向与报告相反（低波超配），约束的经济含义因此不同。",
+    den: "The rebuilt baseline matches the existing portfolio at 0.9971 monthly weight correlation, so the differences come from the constraint alone. The production portfolio's skew runs opposite to the report's — it overweights low volatility — which changes what the constraint means.",
+  },
+  {
+    slug: "roe-quality-factors",
+    tagZh: "专题",
+    tagEn: "Study",
+    zh: "ROE 质量因子递进比较（沪深全市场）",
+    en: "Progressive ROE quality factors (full A-share market)",
+    dzh: "同一股票截面上三层递进：只看稳定性 RankIC 1.95%，加入 ROE 水平 2.66%（1% 显著），再加入四因子 3.69%，但只在 5% 水平显著、ICIR 与方向正确率下降，2021 与 2025 年度为负。",
+    den: "Three layers on one identical cross-section: stability alone 1.95% RankIC, adding the ROE level 2.66% (significant at 1%), adding four more factors 3.69% (significant only at 5%, with ICIR and hit rate falling, and negative yearly means in 2021 and 2025).",
+  },
+  {
+    slug: "rl-portfolio-optimisation",
+    tagZh: "对照实验",
+    tagEn: "Control",
+    zh: "RL 组合优化 vs 现有优化器",
+    en: "RL portfolio optimisation vs the existing optimiser",
+    dzh: "固定同一份 alpha、同一批调仓日、同一套约束与成本，只换组合构建方法；84 期样本外，SAC 路径 IR 低于 0.098，现有 SOCP 为 0.315。",
+    den: "Same alpha, same rebalance dates, same constraints and costs; only the portfolio-construction method changes. Over 84 out-of-sample periods the SAC paths stay below 0.098 IR while the existing SOCP reaches 0.315.",
+  },
+  {
+    slug: "top50-objective",
+    tagZh: "专题",
+    tagEn: "Study",
+    zh: "头部 50 只目标函数实验",
+    en: "Objective function for a top-50 book",
+    dzh: "按实际仅持有头部 6.25% 的口径重新定义目标函数后，复现器与已落盘决策的吻合度由 66% 升至 93.2%，结论亦由「存在差异」转为「基本无差异」。",
+    den: "Redefining the objective for a book that holds only the top 6.25% raised agreement between the replayer and the stored decisions from 66% to 93.2%, turning the conclusion from “there is a gap” into “essentially no gap”.",
+  },
+  {
+    slug: "label-horizon",
+    tagZh: "专题",
+    tagEn: "Study",
+    zh: "标签周期选择（生产模型）",
+    en: "Label-horizon selection (production model)",
+    dzh: "将「训练标签周期不必等于评估周期」应用于月频生产模型：各专家依代理标签选择自身周期，评估口径保持不变。",
+    den: "Applies the idea that the training label horizon need not equal the evaluation horizon to the monthly production model: each expert selects its own horizon from proxy labels while the evaluation convention stays fixed.",
+  },
+];
+---
+
+<Base
+  title="量化研究工作集 · Quant Research Portfolio"
+  description="量化研究作品集：中证 800 指数增强研究平台、动态多专家 Alpha 融合与路由、类 Barra CNE6 风险模型、三维张量因子挖掘与只读数据库因子回测"
+>
+  <section class="hero hero-ledger">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="把 Alpha 研究做成可复现的组合系统"
+          en="Turning alpha research into a reproducible portfolio system"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="作品集以中证 800 指数增强为主线，覆盖从数据接入、因子构建、Alpha 建模、风险分解、约束优化到日频回测的完整研究链路，另含三维张量因子挖掘平台与只读数据库因子回测工具两项独立工作。"
+          en="The portfolio follows one main line — a CSI 800 enhanced-index system — across the full research chain: data ingestion, factor construction, alpha modelling, risk decomposition, constrained optimisation and daily backtesting. Two independent pieces sit alongside it: a three-dimensional tensor factor-mining platform and a read-only database factor-backtest tool."
+        />
+      </div>
+      <ul class="pills">
+        <li class="pill">Python</li>
+        <li class="pill">XGBoost</li>
+        <li class="pill">PyTorch / CUDA</li>
+        <li class="pill">Clarabel · Gurobi</li>
+        <li class="pill">PostgreSQL</li>
+      </ul>
+
+      <div class="metrics">
+        {ledger.map((m) => (
+          <div class="metric">
+            <div class="v">{m.v}</div>
+            <Bi tag="div" class="k" zh={m.zh} en={m.en} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <Bi tag="h2" zh="项目" en="Projects" />
+        <span class="section-rule"></span>
+      </div>
+
+      <div class="cards">
+        <a class="card" href={p2}>
+          <span class="index">01 · <span data-i18n="zh">已发布</span><span data-i18n="en">PUBLISHED</span></span>
+          <Bi
+            tag="h3"
+            zh="动态多专家 Alpha 融合与路由"
+            en="Dynamic multi-expert alpha blending and routing"
+          />
+          <Bi
+            zh="以 Linear IC 为锚，依滞后样本外（OOF）证据确定 XGBoost 与 GRU 的权重。冻结留出 52 期：IR 1.010 → 1.168，换手基本持平。"
+            en="A Linear IC anchor, with lagged out-of-sample (OOF) evidence setting the weights of XGBoost and GRU. Over the 52-period frozen holdout: IR 1.010 → 1.168 at essentially unchanged turnover."
+          />
+        </a>
+
+        {projects.map((p) => (
+          <div class="card pending">
+            <span class="index">{p.n} · <span data-i18n="zh">筹备中</span><span data-i18n="en">PLANNED</span></span>
+            <Bi tag="h3" zh={p.zh} en={p.en} />
+            <Bi zh={p.dzh} en={p.den} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <Bi tag="h2" zh="支撑组件" en="Components" />
+        <span class="section-rule"></span>
+      </div>
+
+      <div class="rows">
+        {components.map((c) => (
+          <div class="row">
+            <span class="tag"><Bi tag="span" zh={c.tagZh} en={c.tagEn} /></span>
+            <div class="body">
+              <h3>
+                <a href={`${base}components/${c.slug}/`}>
+                  <span data-i18n="zh">{c.zh}</span>
+                  <span data-i18n="en">{c.en}</span>
+                </a>
+              </h3>
+              <Bi tag="p" zh={c.dzh} en={c.den} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <Bi tag="h2" zh="研究与复现" en="Research and reproduction" />
+        <span class="section-rule"></span>
+      </div>
+
+      <div class="rows">
+        {notes.map((n) => (
+          <div class="row">
+            <span class="tag"><Bi tag="span" zh={n.tagZh} en={n.tagEn} /></span>
+            <div class="body">
+              <h3>
+                <a href={`${base}notes/${n.slug}/`}>
+                  <span data-i18n="zh">{n.zh}</span>
+                  <span data-i18n="en">{n.en}</span>
+                </a>
+              </h3>
+              <Bi tag="p" zh={n.dzh} en={n.den} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <Bi tag="h2" zh="关于" en="About" />
+        <span class="section-rule"></span>
+      </div>
+
+      <Bi
+        tag="p"
+        class="lede"
+        zh="黄若烯 · 金融科技硕士在读，量化因子研究与机器学习。"
+        en="Ruoxi Huang · financial-technology master's candidate, quantitative factor research and machine learning."
+      />
+
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="教育" en="Education" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="香港大学 · 金融科技硕士（MFFinTech）· 2025.09 – 至今 · GPA 3.99 / 4.0"
+              en="The University of Hong Kong · Master of Finance in Financial Technology · Sep 2025 – Present · GPA 3.99 / 4.0"
+            />
+            <Bi
+              tag="p"
+              zh="北京航空航天大学 · 信息管理与信息系统 管理学学士 · 2021.09 – 2025.07 · GPA 3.72 / 4.0"
+              en="Beihang University · Bachelor of Management, Information Management and Information Systems · Sep 2021 – Jul 2025 · GPA 3.72 / 4.0"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实习" en="Internships" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="量化研究实习 · 公募基金 · 2026.06 – 至今"
+              en="Quantitative research intern · public fund · Jun 2026 – Present"
+            />
+            <Bi
+              tag="p"
+              zh="数据自动化实习 · 券商财富管理 · 2024.07 – 2024.09"
+              en="Data automation intern · brokerage wealth management · Jul 2024 – Sep 2024"
+            />
+            <Bi
+              tag="p"
+              zh="数据自动化实习 · 财险业务发展 · 2024.01 – 2024.04"
+              en="Data automation intern · P&C insurance, business development · Jan 2024 – Apr 2024"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="技能" en="Skills" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="Python（pandas / NumPy / PyTorch / XGBoost / Scikit-Learn / Selenium）、SQL；多因子挖掘、时序分析、机器学习、组合优化。"
+              en="Python (pandas / NumPy / PyTorch / XGBoost / Scikit-Learn / Selenium), SQL; multi-factor mining, time-series analysis, machine learning, portfolio optimisation."
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="联系" en="Contact" /></span>
+          <div class="body">
+            <p><a href="mailto:ruoxi.huang.alex@gmail.com">ruoxi.huang.alex@gmail.com</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="wrap">
+      <div class="prose">
+        <Bi tag="h2" zh="研究准则" en="Research principles" />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="信号更强不等于组合更好。所有候选均在统一股票池、统一风险模型、统一优化器与统一成本假设下评判，并在信号层与组合层同时检验；负向结果一并保留。"
+          en="A stronger signal is not a better portfolio. Every candidate is judged on an identical universe, risk model, optimiser and cost assumption, and tested at both the signal and the portfolio layer; negative results are retained as well."
+        />
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" font-family="'Microsoft YaHei','Noto Sans SC','PingFang SC',sans-serif">
+  <defs>
+    <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8f8f8f"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="780" fill="#ffffff"/>
+  <text x="60" y="52" font-size="28" font-weight="700" fill="#171717">类 Barra CNE6 风险模型 · 协方差矩阵估计</text>
+  <text x="60" y="82" font-size="15" fill="#5c5c5c">两条线并行：左线估因子协方差 Σ_F，右线估个股特异风险 σ_ε，最后汇合成个股协方差矩阵</text>
+  <line x1="60" y1="100" x2="1140" y2="100" stroke="#e8e8e8" stroke-width="2"/>
+
+  <text x="90" y="132" font-size="16" font-weight="700" fill="#4d4d4d">左线：因子协方差 Σ_F</text>
+  <text x="670" y="132" font-size="16" font-weight="700" fill="#4d4d4d">右线：个股特异风险 σ_ε</text>
+
+  <rect x="90" y="150" width="430" height="58" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="110" y="186" font-size="15" fill="#171717">因子收益（市值加权 WLS 估计）</text>
+
+  <rect x="90" y="224" width="430" height="58" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="110" y="260" font-size="15" fill="#171717">EW 时序加权（相关半衰期 200 / 波动 42）</text>
+
+  <rect x="90" y="298" width="430" height="58" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="110" y="334" font-size="15" fill="#171717">Newey-West 自相关调整（Bartlett 核）</text>
+
+  <rect x="90" y="372" width="430" height="58" rx="9" fill="#f7f7f7" stroke="#4d4d4d" stroke-width="2"/>
+  <text x="110" y="408" font-size="15" fill="#171717">特征值调整 ERA（蒙特卡洛修正偏差）</text>
+
+  <rect x="90" y="446" width="430" height="58" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="110" y="482" font-size="15" fill="#171717">波动率状态调整 VRA</text>
+
+  <rect x="90" y="520" width="430" height="58" rx="9" fill="#f0f0f0" stroke="#4d4d4d" stroke-width="2"/>
+  <text x="110" y="556" font-size="15" font-weight="700" fill="#4d4d4d">Σ_F（因子协方差矩阵）</text>
+
+  <rect x="670" y="150" width="430" height="52" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="690" y="182" font-size="15" fill="#171717">残差收益（WLS 回归残差）</text>
+
+  <rect x="670" y="216" width="430" height="52" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="690" y="248" font-size="15" fill="#171717">EW 时序加权（半衰期 42）</text>
+
+  <rect x="670" y="282" width="430" height="52" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="690" y="314" font-size="15" fill="#171717">Newey-West 自相关调整</text>
+
+  <rect x="670" y="348" width="430" height="52" rx="9" fill="#f7f7f7" stroke="#4d4d4d" stroke-width="2"/>
+  <text x="690" y="380" font-size="15" fill="#171717">结构化模型 γ 混合（数据量 × 异常敏感性）</text>
+
+  <rect x="670" y="414" width="430" height="52" rx="9" fill="#f7f7f7" stroke="#4d4d4d" stroke-width="2"/>
+  <text x="690" y="446" font-size="15" fill="#171717">贝叶斯收缩（市值分组向组均值收缩）</text>
+
+  <rect x="670" y="480" width="430" height="52" rx="9" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="690" y="512" font-size="15" fill="#171717">波动率状态调整 VRA（市值加权）</text>
+
+  <rect x="670" y="546" width="430" height="52" rx="9" fill="#f5f5f5" stroke="#4d4d4d" stroke-width="2"/>
+  <text x="690" y="578" font-size="15" font-weight="700" fill="#4d4d4d">σ_ε（个股特异波动率）</text>
+
+  <path d="M305 208 V218" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M305 282 V292" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M305 356 V366" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M305 430 V440" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M305 504 V514" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+
+  <path d="M885 202 V210" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M885 268 V276" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M885 334 V342" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M885 400 V408" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M885 466 V474" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+  <path d="M885 532 V540" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+
+  <path d="M305 578 V636 H885 V602" stroke="#8f8f8f" stroke-width="2" fill="none"/>
+  <path d="M600 636 V652" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a3)"/>
+
+  <rect x="90" y="658" width="1020" height="86" rx="10" fill="#f5f5f5" stroke="#d4d4d4"/>
+  <text x="110" y="692" font-size="17" font-weight="700" fill="#4d4d4d">汇合：Σ = X · Σ_F · Xᵀ + diag(σ_ε²)</text>
+  <text x="110" y="720" font-size="13" fill="#5c5c5c">个股协方差 = 共同因子风险（暴露 × 因子协方差 × 暴露ᵀ）+ 个股特异风险；优化器直接用分解形式计算跟踪误差</text>
+</svg>

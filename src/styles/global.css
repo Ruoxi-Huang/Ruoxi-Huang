@@ -1,0 +1,1051 @@
+/* ---------------------------------------------------------------------------
+   Design language: Vercel's system, rendered in ink and paper only.
+
+   Theme — Vercel DESIGN.md:
+     surface ladder canvas -> canvas-soft -> ink, a 4px space base, hairline
+     chrome, stacked shadows sitting under an inset ring, display type at
+     weight 600 with negative tracking, monospace for technical labels and
+     data, and the polarity-flipped dark band as the depth cue.
+
+   Craft — impeccable craft-floor.md / typeset.md / layout.md:
+     no kicker above a heading; tracking floor -0.04em; body 16px floor;
+     prose measure counted in characters, not pixels; elevation declared
+     once; cards at 12px; pills reserved for small controls; tight groups,
+     generous bands; browser surfaces (selection, caret, focus ring,
+     numerals) themed from the same palette.
+
+   Deviations, recorded so they read as decisions rather than drift:
+   - No accent colour. Vercel's blue (#0070f3) is dropped: the site is
+     black and white by request, so emphasis is carried by weight, size
+     and rules instead of hue.
+   - --ink-3 is #6f6f6f, not Vercel's #888888. #888 measures 3.54:1 on
+     white, which fails AA for the 11-14px labels that use it. #6f6f6f
+     measures 5.02:1 on white and 4.81:1 on canvas-soft, so the same token
+     clears the floor on both papers, and it still reads as quiet.
+   - CJK display type gets its own tracking and leading. Vercel's -0.03em
+     targets Latin; full-width Han glyphs squeeze badly at that setting,
+     so [data-lang="zh"] relaxes the tracking and opens the leading.
+--------------------------------------------------------------------------- */
+
+:root {
+  /* spacing ladder, 4px base (Vercel's --geist-space) */
+  --s-4: 4px;
+  --s-8: 8px;
+  --s-12: 12px;
+  --s-16: 16px;
+  --s-24: 24px;
+  --s-32: 32px;
+  --s-40: 40px;
+  --s-48: 48px;
+  --s-64: 64px;
+  --s-96: 96px;
+  --s-128: 128px;
+
+  --container: 1200px;
+
+  /* colour: one ink, two papers, three hairlines. Nothing else. */
+  --canvas: #ffffff;
+  --canvas-soft: #fafafa;
+  --canvas-inset: #f5f5f5;
+  --ink: #171717;
+  --ink-2: #4d4d4d;
+  --ink-3: #6f6f6f;
+  --rule: #ebebeb;
+  --rule-strong: #d4d4d4;
+
+  /* the hero plate: chart paper, at the contrast of a pencil line */
+  --grid-step-major: 120px;
+  --grid-line-major: rgba(23, 23, 23, 0.045);
+
+  /* radii (Vercel scale; cards at lg per the craft floor's 12-16px) */
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-pill: 100px;
+
+  /* elevation: an inset ring, optionally under stacked shadows. The ring is
+     always the edge, so no level is ever a ring plus a lone heavy blur. */
+  --ring: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --ring-soft: 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --e-raise: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.02),
+    0 2px 2px rgba(0, 0, 0, 0.04), 0 8px 8px -8px rgba(0, 0, 0, 0.04);
+  --e-float: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.02),
+    0 8px 16px -4px rgba(0, 0, 0, 0.05), 0 24px 32px -8px rgba(0, 0, 0, 0.05);
+
+  /* type: Geist's open-source stand-in, with a CJK partner per platform */
+  --font-latin: "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Arial, sans-serif;
+  --font-cjk: "PingFang SC", "Microsoft YaHei", "Noto Sans SC",
+    "Hiragino Sans GB", sans-serif;
+  --font-mono: "Geist Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* measures: characters for Latin, ems for Han (1em = 1 full-width glyph) */
+  --measure-prose: 68ch;
+  --measure-lede: 66ch;
+}
+
+[data-lang="zh"] {
+  --measure-prose: 38em;
+  --measure-lede: 30em;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink-2);
+  font-family: var(--font-latin), var(--font-cjk);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  accent-color: var(--ink);
+}
+
+/* ---- browser surfaces: the parts nobody draws, themed from the palette ---- */
+::selection {
+  background: var(--ink);
+  color: #fff;
+}
+
+input,
+textarea,
+select,
+button {
+  caret-color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+.band-dark :focus-visible,
+.callout.dark :focus-visible {
+  outline-color: #fff;
+}
+
+/* ---- language switching ---- */
+[data-lang="zh"] [data-i18n="en"],
+[data-lang="en"] [data-i18n="zh"] {
+  display: none !important;
+}
+
+/* ---- links: ink and a hairline rule, no colour ---- */
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
+}
+
+a:hover {
+  text-decoration-color: var(--ink);
+}
+
+.wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--s-24);
+}
+
+.prose {
+  max-width: var(--measure-prose);
+}
+
+/* ============ bands: the page's structural rhythm ============ */
+.band {
+  padding: var(--s-96) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.band-sm {
+  padding: var(--s-64) 0;
+}
+.band-soft {
+  background: var(--canvas-soft);
+}
+.band-dark {
+  background: var(--ink);
+  color: rgba(255, 255, 255, 0.76);
+  border-bottom-color: transparent;
+}
+.band-dark a {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+}
+.band-dark a:hover {
+  text-decoration-color: #fff;
+}
+.band-dark .label {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* ---- chrome ---- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-16);
+  height: 64px;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-8);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.wordmark:hover {
+  text-decoration: none;
+}
+
+.wordmark::before {
+  content: "";
+  width: 13px;
+  height: 13px;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-24);
+  font-size: 14px;
+}
+
+.site-nav a {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+}
+
+.toggle {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: var(--canvas);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.toggle:hover {
+  border-color: var(--rule-strong);
+  background: var(--canvas-soft);
+}
+
+/* ---- hero ---- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* The measuring plate. Vercel spends its hero on a mesh gradient; with hue
+   removed there is no gradient left to spend, so depth comes from the
+   subject's own world instead: the major rules of chart paper, on the 120px
+   module the framed artifact is measured against. One weight only, and a
+   whisper of it — finer rules at this scale read as texture, not as paper.
+   The radial mask keeps the field around the evidence and leaves the area
+   behind the prose as plain paper. */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+      to right,
+      var(--grid-line-major) 0 1px,
+      transparent 1px var(--grid-step-major)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--grid-line-major) 0 1px,
+      transparent 1px var(--grid-step-major)
+    );
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 44%,
+      #000 72%,
+      transparent 100%
+    ),
+    radial-gradient(
+      130% 62% at 50% 76%,
+      #000 0%,
+      rgba(0, 0, 0, 0.35) 52%,
+      transparent 78%
+    );
+  mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 44%,
+      #000 72%,
+      transparent 100%
+    ),
+    radial-gradient(
+      130% 62% at 50% 76%,
+      #000 0%,
+      rgba(0, 0, 0, 0.35) 52%,
+      transparent 78%
+    );
+}
+
+.hero .wrap {
+  position: relative;
+  padding-top: var(--s-128);
+  padding-bottom: var(--s-96);
+}
+
+.hero-narrow {
+  max-width: 880px;
+}
+
+/* The homepage hero carries the index's summary, so the ledger closes the
+   band instead of a hairline: statement, numbers, ink rule. */
+.hero-ledger {
+  border-bottom: 0;
+}
+
+.hero-ledger .wrap {
+  padding-bottom: 0;
+}
+
+.hero-ledger .metrics {
+  margin-top: var(--s-64);
+}
+
+/* With the ledger closing the band, the plate belongs under the numbers —
+   the statement stays on plain paper. */
+.hero-ledger .hero-grid {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 34%,
+    rgba(0, 0, 0, 0.5) 52%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 34%,
+    rgba(0, 0, 0, 0.5) 52%,
+    #000 100%
+  );
+}
+
+h1 {
+  font-size: clamp(2.125rem, 4.4vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 var(--s-24);
+  text-wrap: balance;
+}
+
+[data-lang="zh"] h1 {
+  line-height: 1.18;
+  letter-spacing: -0.005em;
+}
+
+.lede {
+  font-size: 1.125rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+  max-width: var(--measure-lede);
+  margin: 0;
+}
+
+[data-lang="zh"] .lede {
+  line-height: 1.78;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-8);
+  margin: var(--s-32) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+  padding: 5px 13px;
+  white-space: nowrap;
+}
+
+/* the hero artifact: the one floated surface on the page */
+.artifact {
+  margin: var(--s-48) 0 0;
+}
+
+.artifact a {
+  display: block;
+  text-decoration: none;
+}
+
+.artifact img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--canvas);
+  border-radius: var(--r-lg);
+  box-shadow: var(--e-float);
+}
+
+.artifact figcaption {
+  margin-top: var(--s-16);
+}
+
+/* ---- section mastheads: a heading, then a trailing rule. No kicker. ---- */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-24);
+  margin: 0 0 var(--s-40);
+}
+
+.section-head .label {
+  flex: 0 0 auto;
+  padding-bottom: 0.35em;
+}
+
+.section-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--rule);
+  transform: translateY(-0.4em);
+}
+
+/* a lede that introduces a list needs the list to follow it closely */
+.section-head + .lede {
+  margin-bottom: var(--s-32);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+[data-lang="zh"] .label {
+  letter-spacing: 0.02em;
+}
+
+/* A mono metadata line: project number, scope, period. It carries facts the
+   heading cannot, which is Vercel's documented hero badge. The homepage hero
+   has none, because a line of adjectives above a heading is a kicker. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--s-16);
+}
+
+[data-lang="zh"] .eyebrow {
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 0;
+}
+
+[data-lang="zh"] h2 {
+  line-height: 1.26;
+  letter-spacing: -0.005em;
+}
+
+.band-dark h2 {
+  color: #fff;
+}
+
+/* light type on ink: one step more leading and a touch of tracking, the
+   compensation the craft floor asks for on dark surfaces */
+.band-dark .lede {
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.7;
+  letter-spacing: 0.005em;
+  margin-top: var(--s-24);
+}
+
+[data-lang="zh"] .band-dark .lede {
+  line-height: 1.82;
+}
+
+h3 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin: var(--s-32) 0 var(--s-8);
+}
+
+p {
+  margin: 0 0 var(--s-16);
+}
+
+ul,
+ol {
+  margin: 0 0 var(--s-16);
+  padding-left: 1.15em;
+}
+
+li {
+  margin: 0 0 var(--s-8);
+}
+
+li::marker {
+  color: var(--ink-3);
+}
+
+strong,
+b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  background: var(--canvas-inset);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* ---- the ledger: four numbers between two ink rules, no cards ---- */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.metric {
+  padding: var(--s-32) var(--s-24) var(--s-32) 0;
+}
+
+.metric + .metric {
+  padding-left: var(--s-24);
+  border-left: 1px solid var(--rule);
+}
+
+.metric .v {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  line-height: 1.1;
+}
+
+.metric .k {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  margin-top: var(--s-12);
+  max-width: 26ch;
+}
+
+[data-lang="zh"] .metric .k {
+  letter-spacing: 0.01em;
+  max-width: 16em;
+}
+
+/* The headline metric keeps its neighbours' size; only the weight moves, so
+   the row stays a ledger instead of four competing cards. */
+.metric.featured .v {
+  font-weight: 600;
+}
+
+/* ---- projects: one ruled matrix, the shipped project spanning two columns.
+   The rule grid is the container; nothing floats. ---- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--canvas);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-32);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--canvas);
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.card:first-child {
+  grid-column: span 2;
+}
+
+a.card:hover {
+  background: var(--canvas-soft);
+  text-decoration: none;
+}
+
+.card .index {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin: 0 0 var(--s-24);
+}
+
+.card h3 {
+  margin: 0 0 var(--s-8);
+}
+
+.card:first-child h3 {
+  font-size: 1.375rem;
+  letter-spacing: -0.02em;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+  max-width: 46ch;
+}
+
+[data-lang="zh"] .card p {
+  max-width: 26em;
+}
+
+.card.pending {
+  background: var(--canvas-soft);
+}
+
+.card.pending h3 {
+  color: var(--ink-2);
+}
+
+/* ---- figures ---- */
+figure {
+  margin: var(--s-32) 0;
+}
+
+/* ---- ruled list: one row per item, a mono tag in the left column.
+   The device for notes, components and the about block — cards would flatten
+   a list of unlike things into the same box. ---- */
+.rows {
+  border-top: 1px solid var(--rule);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: var(--s-4) var(--s-24);
+  padding: var(--s-24) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.row .tag {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+
+[data-lang="zh"] .row .tag {
+  letter-spacing: 0.02em;
+}
+
+.row .body {
+  max-width: var(--measure-prose);
+}
+
+.row h3 {
+  margin: 0 0 var(--s-8);
+  font-size: 1rem;
+}
+
+.row p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+.row p + p {
+  margin-top: var(--s-8);
+}
+
+.row strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--canvas);
+  border-radius: var(--r-lg);
+  box-shadow: var(--ring-soft);
+}
+
+/* A figure's width follows its role, not the page: flow diagrams and wide
+   metric grids go full-bleed, single-panel charts do not. */
+.fig-narrow {
+  max-width: 620px;
+}
+
+.fig-half {
+  max-width: 780px;
+}
+
+figcaption {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin-top: var(--s-12);
+  max-width: var(--measure-prose);
+}
+
+figcaption b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---- tables ---- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.90625rem;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+th,
+td {
+  padding: 12px var(--s-12);
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+th {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+[data-lang="zh"] th {
+  letter-spacing: 0.01em;
+}
+
+td.num,
+th.num {
+  text-align: right;
+}
+
+tbody tr:hover {
+  background: var(--canvas-soft);
+}
+
+/* the winning cell: ink, weight and an underline. No colour is left to spend */
+.hl {
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 0 -1px 0 var(--ink);
+}
+
+/* ---- callouts ---- */
+.callout {
+  border-radius: var(--r-lg);
+  padding: var(--s-32);
+  margin: var(--s-32) 0;
+  max-width: var(--measure-prose);
+  background: var(--canvas-inset);
+  box-shadow: var(--ring-soft);
+}
+
+.callout.dark {
+  background: var(--ink);
+  box-shadow: none;
+}
+
+.callout.dark p,
+.callout.dark span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.callout.dark b,
+.callout.dark strong {
+  color: #fff;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 0.96875rem;
+  line-height: 1.65;
+}
+
+.note {
+  border-left: 1px solid var(--rule-strong);
+  padding-left: var(--s-16);
+  color: var(--ink-3);
+  font-size: 0.875rem;
+  max-width: var(--measure-prose);
+}
+
+/* ---- feature row (Vercel's three-up, separated by rules, not cards) ---- */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 var(--s-32);
+  border-top: 1px solid var(--rule);
+}
+
+.feature {
+  padding: var(--s-24) 0 var(--s-32);
+  border-bottom: 1px solid var(--rule);
+}
+
+.feature .n {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin-bottom: var(--s-16);
+}
+
+.feature h3 {
+  margin: 0 0 var(--s-8);
+  font-size: 1rem;
+}
+
+.feature p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-16);
+  margin-top: var(--s-96);
+  padding-top: var(--s-24);
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.site-footer {
+  background: var(--canvas-soft);
+  border-top: 1px solid var(--rule);
+}
+
+.site-footer .wrap {
+  padding-top: var(--s-48);
+  padding-bottom: var(--s-48);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--ink-3);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-24);
+  flex-wrap: wrap;
+}
+
+.site-footer .wrap > * {
+  max-width: var(--measure-prose);
+}
+
+/* ---- motion: one authored moment, in the hero, plus state changes ---- */
+@media (prefers-reduced-motion: no-preference) {
+  h1,
+  .hero .lede,
+  .artifact {
+    animation: rise 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero .lede {
+    animation-delay: 0.06s;
+  }
+  .artifact {
+    animation-delay: 0.14s;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- responsive ---- */
+@media (max-width: 960px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* Reset the sibling rule first: ".metric + .metric" outranks a bare
+     ".metric", so every cell has to be listed to clear it. */
+  .metric,
+  .metric + .metric,
+  .metric:nth-child(even) {
+    padding: var(--s-24) var(--s-24) var(--s-24) 0;
+    border-left: 0;
+  }
+  .metric:nth-child(even) {
+    padding-right: 0;
+    padding-left: var(--s-24);
+    border-left: 1px solid var(--rule);
+  }
+  .metric:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
+  }
+}
+
+@media (max-width: 720px) {
+  .band {
+    padding: var(--s-64) 0;
+  }
+  .hero .wrap {
+    padding-top: var(--s-64);
+    padding-bottom: var(--s-48);
+  }
+  .hero-narrow {
+    max-width: none;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  .site-header .wrap {
+    height: auto;
+    padding-top: var(--s-12);
+    padding-bottom: var(--s-12);
+    flex-wrap: wrap;
+  }
+  .site-nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .card,
+  .card:first-child {
+    grid-column: span 1;
+    padding: var(--s-24);
+  }
+  .card:first-child h3 {
+    font-size: 1.1875rem;
+  }
+  .section-head {
+    display: block;
+  }
+  .section-rule {
+    display: none;
+  }
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-8);
+  }
+}
+
+@media (max-width: 620px) {
+  .cards,
+  .features {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .features {
+    border-top: 0;
+  }
+  .feature:first-child {
+    border-top: 1px solid var(--rule);
+  }
+  .metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .metric,
+  .metric + .metric,
+  .metric:nth-child(even) {
+    padding: var(--s-24) 0;
+    border-left: 0;
+  }
+  .metric:nth-child(n + 2) {
+    border-top: 1px solid var(--rule);
+  }
+}

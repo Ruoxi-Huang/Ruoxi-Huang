@@ -1,0 +1,102 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="RL 组合优化对照实验 · Quant Research Portfolio"
+  description="在 alpha、调仓日、约束与成本一致的条件下仅替换组合构建方法：84 期样本外，强化学习未超越现有优化器"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">对照实验 · 样本外 2019-01 – 2025-12 · 84 期</span>
+        <span data-i18n="en">Control experiment · out-of-sample 2019-01 – 2025-12 · 84 periods</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="RL 组合优化 vs 现有优化器"
+          en="RL portfolio optimisation vs the existing optimiser"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="在 alpha、调仓日、约束与成本完全一致的条件下，仅替换组合构建方法，检验强化学习是否带来增量。"
+          en="With alpha, rebalance dates, constraints and costs held identical, only the portfolio-construction method changes, so the incremental value of reinforcement learning can be isolated."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原实现" en="Original code" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="原压缩包为 FinRL 式两阶段方案：Transformer 先训练表征与 1 日、5 日预测头，SAC 再直接输出每只股票的买卖股数。股票池为 88 只大盘股，日频，奖励为组合绝对收益，训练阶段不计成本，且无基准、无跟踪误差约束与主动权重上限。"
+              en="The original archive is a FinRL-style two-stage design: a Transformer trains a representation plus one- and five-day prediction heads, and SAC then outputs buy/sell share counts per stock. It trades 88 large caps daily, rewards absolute portfolio return, charges no cost during training, and has no benchmark, tracking-error constraint or active-weight cap."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="不复现其原始设定（依赖 gym 0.19 与旧版 stable_baselines3，无法在本仓环境运行），改为控制变量对照：同一份 alpha、同一批调仓日、同一套约束与成本，只替换组合构建方法。"
+              en="Its original setup is not rerun — it depends on gym 0.19 and an old stable_baselines3, which will not run in this repository's environment. Instead the comparison is control-variable: same alpha, same rebalance dates, same constraints and costs, with only the portfolio-construction method replaced."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="扣除 5bp 单边成本后：现有 SOCP 年化超额 +3.22%、实现 TE 10.21%、IR 0.315、单边换手 0.57；SAC 从零学习为 −0.44%（IR −0.158），以 alpha 为先验的残差策略为 +0.42%（IR 0.098），均未超过最简单的 alpha 排序加权基准（+1.05%、IR 0.252）。RL 的持仓数为 505–519 只、主动敞口低于 1，表明其学习到的是低频倾斜而非截面选股。"
+              en="After 5bp one-way costs: the existing SOCP earns +3.22% annualised excess at 10.21% realised TE, IR 0.315 and 0.57 one-way turnover; SAC trained from scratch earns −0.44% (IR −0.158) and an alpha-prior residual policy +0.42% (IR 0.098), neither exceeding even the simplest alpha-ranked weighting (+1.05%, IR 0.252). The RL policies hold 505–519 names at under 1.0 active exposure, indicating low-frequency tilting rather than cross-sectional selection."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="中证 800 股票池、124 个月末调仓；满仓多头、单只主动权重 ≤ 3%、TE 上限校准到现有组合正好压在 15%（校准系数 1.72）；RL 走扩窗前沿训练，36 期训练 / 12 期验证选 checkpoint / 12 期严格样本外，逐年推进。"
+              en="CSI 800 universe, 124 month-end rebalances; fully invested long-only, single-name active weight ≤ 3%, and a TE cap calibrated so the existing portfolio sits exactly at 15% (calibration 1.72). The RL path trains on an expanding frontier: 36 periods training, 12 periods validation to pick a checkpoint, 12 periods strictly out-of-sample, rolled forward year by year."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="仅覆盖一种 RL 形态（SAC 策略网络与逐股倾斜解码）；动作表示改为 topk 解码后，朴素倾斜的 IR 即可追平优化器，表明瓶颈在「学习」而非「表达」，结论亦随动作表示而变。84 个月度决策点的样本量有限。"
+              en="This covers one RL shape (an SAC policy with per-name tilt decoding); switching the action representation to top-k decoding lets naive tilting match the optimiser's IR, so the bottleneck lies in learning rather than expression and the conclusion moves with that choice. Eighty-four monthly decisions is also a limited sample."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}notes/roe-quality-factors/`}>
+          <span data-i18n="zh">← ROE 质量因子</span>
+          <span data-i18n="en">← ROE quality factors</span>
+        </a>
+        <a href={`${base}notes/top50-objective/`}>
+          <span data-i18n="zh">下一则 · 头部 50 只目标函数 →</span>
+          <span data-i18n="en">Next · Top-50 objective →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

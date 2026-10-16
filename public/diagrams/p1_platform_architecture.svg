@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="'Microsoft YaHei','Noto Sans SC','PingFang SC',sans-serif">
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8f8f8f"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="700" fill="#ffffff"/>
+  <text x="60" y="52" font-size="28" font-weight="700" fill="#171717">中证 800 指数增强研究平台 · 系统架构</text>
+  <text x="60" y="82" font-size="15" fill="#5c5c5c">YAML 配置驱动 · 统一 CLI（main.py）· 结构化日志 · 400+ 自动化测试</text>
+  <line x1="60" y1="100" x2="1140" y2="100" stroke="#e8e8e8" stroke-width="2"/>
+
+  <rect x="60" y="140" width="300" height="120" rx="10" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="80" y="180" font-size="17" font-weight="700" fill="#4d4d4d">数据接入</text>
+  <text x="80" y="208" font-size="13" fill="#5c5c5c">PostgreSQL 全量 / 增量</text>
+  <text x="80" y="232" font-size="13" fill="#5c5c5c">本地 Feather 快照</text>
+
+  <rect x="420" y="140" width="300" height="120" rx="10" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="440" y="180" font-size="17" font-weight="700" fill="#4d4d4d">因子工程</text>
+  <text x="440" y="208" font-size="13" fill="#5c5c5c">89 个标准化 Alpha 因子</text>
+  <text x="440" y="232" font-size="13" fill="#5c5c5c">89 个原始风险因子</text>
+
+  <rect x="780" y="140" width="300" height="120" rx="10" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="800" y="180" font-size="17" font-weight="700" fill="#4d4d4d">Alpha 建模</text>
+  <text x="800" y="208" font-size="13" fill="#5c5c5c">Linear IC 锚 + XGB 残差</text>
+  <text x="800" y="232" font-size="13" fill="#5c5c5c">GRU 40 日时序</text>
+
+  <rect x="60" y="350" width="300" height="120" rx="10" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="80" y="390" font-size="17" font-weight="700" fill="#4d4d4d">风险模型</text>
+  <text x="80" y="418" font-size="13" fill="#5c5c5c">市值加权 WLS 因子收益</text>
+  <text x="80" y="442" font-size="13" fill="#5c5c5c">EW / NW · ERA · VRA</text>
+
+  <rect x="420" y="350" width="300" height="120" rx="10" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="440" y="390" font-size="17" font-weight="700" fill="#4d4d4d">组合优化</text>
+  <text x="440" y="418" font-size="13" fill="#5c5c5c">Clarabel 连续 SOCP</text>
+  <text x="440" y="442" font-size="13" fill="#5c5c5c">Gurobi MIQCP（稀疏持仓）</text>
+
+  <rect x="780" y="350" width="300" height="120" rx="10" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="800" y="390" font-size="17" font-weight="700" fill="#4d4d4d">回测评估</text>
+  <text x="800" y="418" font-size="13" fill="#5c5c5c">日频 · 单边 5bps 成本</text>
+  <text x="800" y="442" font-size="13" fill="#5c5c5c">TE / IR / 回撤 / 换手</text>
+
+  <path d="M360 200 H414" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a1)"/>
+  <path d="M720 200 H774" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a1)"/>
+  <path d="M930 260 V305 H210 V344" stroke="#8f8f8f" stroke-width="2" fill="none" marker-end="url(#a1)"/>
+  <path d="M360 410 H414" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a1)"/>
+  <path d="M720 410 H774" stroke="#8f8f8f" stroke-width="2" marker-end="url(#a1)"/>
+  <path d="M930 470 V514" stroke="#8f8f8f" stroke-width="2" fill="none" marker-end="url(#a1)"/>
+
+  <rect x="60" y="520" width="1080" height="120" rx="10" fill="#fafafa" stroke="#d4d4d4"/>
+  <text x="80" y="560" font-size="17" font-weight="700" fill="#4d4d4d">输出与诊断（可审计）</text>
+  <text x="80" y="588" font-size="13" fill="#5c5c5c">outputs/YYYYMMDD/：target_weights · alpha · alpha_factor_weights · factor_covariance · specific_volatility · risk_diagnostics · summary</text>
+  <text x="80" y="612" font-size="13" fill="#5c5c5c">outputs/backtest/：daily_returns · period_returns · metrics · diagnostics · te_calibration · PNG 图</text>
+</svg>

@@ -1,0 +1,102 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="偏度 / 峰度约束（中证 800） · Quant Research Portfolio"
+  description="复现 SWS《量化组合的偏度问题》：先验证基线可信，再比较各类分域约束"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">专题 · 中证 800 · 2021-01 – 2026-07 · 66 期</span>
+        <span data-i18n="en">Study · CSI 800 · 2021-01 – 2026-07 · 66 periods</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="偏度 / 峰度约束（中证 800）"
+          en="Skew and kurtosis constraints (CSI 800)"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="复现原报告之前先确认基线：以生产风险模型与生产 alpha 重算的组合，与已上线组合的逐月权重高度一致。"
+          en="Before reproducing the report, the baseline is confirmed first: rebuilt on the production risk model and production alpha, the portfolio matches the live one closely month by month."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原报告方法" en="Source method" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="原报告以四套等权因子合成组合（P1 八因子、P2 成长 + 动量 + 低波 + 红利、P3 成长 + 动量 + 分析师、P4 低波 + 反转 + 低流动性）在中证 500 上讨论组合偏度：先观察波动与极值暴露的方向，再以分层偏离或中性化约束修正；个股偏离 0.5%、行业偏离不超过 2%。"
+              en="The report studies portfolio skew on CSI 500 through four equally weighted factor-composite portfolios (P1 an eight-factor mix, P2 growth/momentum/low-vol/dividend, P3 growth/momentum/analyst, P4 low-vol/reversal/low-liquidity): it reads the direction of volatility and tail exposure, then corrects it with layered deviation or neutralisation constraints, at 0.5% per-name and at most 2% industry deviation."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="组合口径改为生产 alpha 与生产风险模型，基线采用已上线的存量组合（prod_reference）而非原报告组合；个股偏离放宽至 3%、不施加行业约束；约束方案扩展至九套逐一扫描，TE 上限 15%、单边成本 5bp。"
+              en="Portfolios are rebuilt on the production alpha and production risk model, with the live stored portfolio (prod_reference) as the baseline instead of the report's composites; per-name deviation widens to 3% with no industry constraint; and the sweep grows to nine constraint schemes under a 15% TE cap and 5bp one-way costs."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="逐月持仓权重相关系数均值 0.9971、中位数 1.0000、最低 0.9627；年化超额 4.83% 对 4.76%，实现 TE 8.02% 对 8.03%，差异仅来自约束口径。生产组合的波动 SSD 为 0.0657，方向为低波超配：最低波组主动 +8.71%、最高波组主动 −9.18%、波动前 10% 主动 −5.78%。原报告的中证 500 组合为高波超配，方向相反，约束的经济含义因此不同。"
+              en="Mean monthly weight correlation is 0.9971, median 1.0000, minimum 0.9627; annualised excess is 4.83% against 4.76% and realised TE 8.02% against 8.03%, so the differences come from the constraint alone. The production portfolio's volatility SSD is 0.0657 and it overweights low volatility: +8.71% active in the lowest-volatility bucket, −9.18% in the highest, −5.78% in the top volatility decile. The report's CSI 500 portfolio does the opposite, which makes the constraint mean something different here."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="风险模型与暴露沿用生产保存的 149 因子协方差与特异波动，缺失时回退到本地 barra 39 因子简化模型；求解形式为最大化主动 alpha 的二阶锥问题。"
+              en="Risk model and exposures come from the production 149-factor covariance and specific volatility, falling back to a local 39-factor Barra model when unavailable; the solve is a second-order cone problem maximising active alpha."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="基线可信只说明两套口径一致，不代表原报告的方向在本组合上有效；结论依赖生产 alpha 快照的可得性，并可能随风险模型更新而变化。"
+              en="A trustworthy baseline only shows the two conventions agree; it does not make the report's direction work here. The result also depends on the production alpha snapshot being available and can move when the risk model is updated."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}notes/domain-constraint-sweep/`}>
+          <span data-i18n="zh">← 分域约束扫描</span>
+          <span data-i18n="en">← Domain-constraint sweep</span>
+        </a>
+        <a href={`${base}notes/roe-quality-factors/`}>
+          <span data-i18n="zh">下一则 · ROE 质量因子 →</span>
+          <span data-i18n="en">Next · ROE quality factors →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

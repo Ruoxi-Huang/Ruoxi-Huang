@@ -1,0 +1,88 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="因子共振复现 · Quant Research Portfolio"
+  description="复现申万宏源《引入多维价量信息的风格因子轮动》的构造思路与它自己的边界"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">复现 · 报告 2026-04 · 数据审计 2026-09</span>
+        <span data-i18n="en">Reproduction · report 2026-04 · audit 2026-09</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi tag="h1" zh="因子共振（申万宏源）" en="Factor resonance (SWS Research)" />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="原报告的核心方法是将个股截面因子提升为因子组合的时间序列，而非构造新的截面因子。"
+          en="The report's central move is to lift a cross-sectional stock factor into a time series of factor portfolios, rather than constructing another factor."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原报告方法" en="Source method" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="原报告以个股截面因子为起点，将每个因子构造为组合，再以组合净值、估值、拥挤度与内部宽度判断风格状态。其经验结论为：估值与拥挤度的横向排序能力较弱、更适合作为大盘风格的高位预警；周频改善明显但换手更高；月频聚合在沪深 300 仍有效。"
+              en="The report starts from cross-sectional stock factors, turns each into a portfolio, and reads style regime from that portfolio's NAV, valuation, crowding and internal breadth. Its own conclusions are qualified: valuation and crowding rank weakly across the cross-section and suit high-level warnings for large-cap styles; weekly frequency improves results but raises turnover; monthly aggregation still works on CSI 300."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="原文正文受访问验证限制、无法直接获取，因此以本机 40 页演示稿逐页核对，并与公开摘要交叉验证；复核范围限于构造逻辑与适用边界，未复算原报告的具体参数。"
+              en="The original article sits behind an access check and cannot be retrieved directly, so this review works from the 40-page deck held locally, checked page by page and cross-validated against the public abstract. The review covers the construction logic and its applicability boundary, not a recomputation of the report's own parameters."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="构造路径可以复现；原报告的适用边界在同一数据上亦成立：月频聚合在沪深 300 有效，在中证 500 明显减弱。"
+              en="The construction path reproduces, and the report's applicability boundary also holds on this data: monthly aggregation remains effective on CSI 300 and degrades markedly on CSI 500."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="结论基于演示稿而非正文，个别参数口径无法逐项对齐，因此仅作方向性判断；共振强度本身没有独立的样本外检验。"
+              en="Because the source is a deck rather than the article, some parameter definitions cannot be aligned item by item, so this remains a directional reading. The resonance measure itself receives no independent out-of-sample test here."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={base}>
+          <span data-i18n="zh">← 返回首页</span>
+          <span data-i18n="en">← Home</span>
+        </a>
+        <a href={`${base}notes/timing-momentum/`}>
+          <span data-i18n="zh">下一则 · 时点动量复现 →</span>
+          <span data-i18n="en">Next · Timing momentum →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

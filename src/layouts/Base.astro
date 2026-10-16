@@ -1,0 +1,102 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <script is:inline>
+      // Resolve the language before first paint so there is no flash.
+      (function () {
+        var lang = "zh";
+        try {
+          var saved = localStorage.getItem("qp-lang");
+          if (saved === "en" || saved === "zh") lang = saved;
+        } catch (e) {}
+        var root = document.documentElement;
+        root.dataset.lang = lang;
+        root.lang = lang === "zh" ? "zh-CN" : "en";
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="wordmark" href={base}>
+          <span data-i18n="zh">量化研究工作集</span>
+          <span data-i18n="en">Quant Research Portfolio</span>
+        </a>
+        <nav class="site-nav">
+          <a href={`${base}projects/p2-dynamic-blend/`}>
+            <span data-i18n="zh">项目</span>
+            <span data-i18n="en">PROJECTS</span>
+          </a>
+          <button id="lang-toggle" class="toggle" type="button">
+            <span data-i18n="zh">EN</span>
+            <span data-i18n="en">中文</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span data-i18n="zh">
+          全部业绩数字均为历史回测 / 研究结果，非实盘业绩，对股票池、风险预算、调仓频率与交易成本假设敏感。
+        </span>
+        <span data-i18n="en">
+          All performance figures are historical backtest / research results, not
+          live trading performance, and are sensitive to the universe, risk
+          budget, rebalance schedule and cost assumptions.
+        </span>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        var KEY = "qp-lang";
+        var root = document.documentElement;
+
+        function apply(lang) {
+          root.dataset.lang = lang;
+          root.lang = lang === "zh" ? "zh-CN" : "en";
+          document
+            .querySelectorAll("img[data-src-zh][data-src-en]")
+            .forEach(function (img) {
+              var next = lang === "zh" ? img.dataset.srcZh : img.dataset.srcEn;
+              if (next && img.getAttribute("src") !== next) {
+                img.setAttribute("src", next);
+              }
+              var alt = lang === "zh" ? img.dataset.altZh : img.dataset.altEn;
+              if (alt) img.setAttribute("alt", alt);
+            });
+          try {
+            localStorage.setItem(KEY, lang);
+          } catch (e) {}
+        }
+
+        var btn = document.getElementById("lang-toggle");
+        if (btn) {
+          btn.addEventListener("click", function () {
+            apply(root.dataset.lang === "zh" ? "en" : "zh");
+          });
+        }
+        apply(root.dataset.lang === "en" ? "en" : "zh");
+      })();
+    </script>
+  </body>
+</html>

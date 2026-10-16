@@ -1,0 +1,432 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
+
+const base = import.meta.env.BASE_URL;
+const diagramZh = `${base}diagrams/p2_dynamic_blend_routing_zh.svg`;
+const diagramEn = `${base}diagrams/p2_dynamic_blend_routing_en.svg`;
+
+const rows = [
+  { zh: "平均区间 RankIC", en: "Mean period RankIC", base: "6.173%", dyn: "6.255%", fix: "6.630%" },
+  { zh: "净主动累计收益", en: "Net active cumulative return", base: "30.41%", dyn: "35.45%", fix: "25.68%" },
+  { zh: "年化主动收益", en: "Annualised active return", base: "6.57%", dyn: "7.49%", fix: "5.56%" },
+  { zh: "信息比率", en: "Information ratio", base: "1.010", dyn: "1.168", fix: "0.844" },
+  { zh: "主动最大回撤", en: "Active maximum drawdown", base: "-7.67%", dyn: "-6.49%", fix: "-11.63%" },
+  { zh: "平均单边换手", en: "Average one-way turnover", base: "48.77%", dyn: "48.71%", fix: "51.92%" },
+];
+
+const features = [
+  {
+    n: "01",
+    zh: "Linear IC 当锚",
+    en: "Linear IC as the anchor",
+    dzh: "透明、稳定、可解释，既是基准也是风险下限。任何非线性增量都要证明自己更好，而不是替换它。",
+    den: "Transparent, stable, interpretable. Both baseline and risk floor. Any nonlinear increment must prove itself better, not replace it.",
+  },
+  {
+    n: "02",
+    zh: "点时序残差标签",
+    en: "Point-in-time residual labels",
+    dzh: "XGB 与 GRU 学习 Linear 漏掉的那部分，历史训练集里不会出现未来的 Linear 拟合结果。",
+    den: "XGBoost and GRU learn what Linear misses. No future Linear fit ever enters the historical training set.",
+  },
+  {
+    n: "03",
+    zh: "防泄漏三件套",
+    en: "Three leakage controls",
+    dzh: "embargo 期规避重叠标签、因子陈旧检查、调仓日收盘信号搭配其后的收益。",
+    den: "An embargo for overlapping labels, factor-staleness rejection, and a close signal paired with subsequent returns.",
+  },
+  {
+    n: "04",
+    zh: "路由器只吃滞后信息",
+    en: "Lagged evidence only",
+    dzh: "上一期 OOF RankIC、top-bottom 收益、信号协方差、换手成本与上一期权重。",
+    den: "Prior OOF RankIC, top-bottom return, signal covariance, turnover cost and previous weights.",
+  },
+  {
+    n: "05",
+    zh: "权重有界且平滑",
+    en: "Bounded, smoothed weights",
+    dzh: "Linear ≥ 60%，XGB ≤ 20%，GRU ≤ 25%，非线性合计 ≤ 40%，逐期平滑避免翻仓。",
+    den: "Linear ≥ 60%, XGB ≤ 20%, GRU ≤ 25%, nonlinear total ≤ 40%, smoothed period to period.",
+  },
+  {
+    n: "06",
+    zh: "组合层是最终裁判",
+    en: "The portfolio layer judges",
+    dzh: "统一股票池、风险模型、优化器与成本假设。只看 RankIC 不足以晋级。",
+    den: "Identical universe, risk model, optimiser and costs. RankIC alone does not qualify a model.",
+  },
+];
+---
+
+<Base
+  title="动态多专家 Alpha 融合与路由 · Quant Research Portfolio"
+  description="以 Linear IC 为锚，用滞后 OOF 证据动态调度 XGBoost 与 GRU 的中证 800 指数增强研究"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">项目 01 · 研究主导</span>
+        <span data-i18n="en">Project 01 · Research lead</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="动态多专家 Alpha 融合与路由"
+          en="Dynamic multi-expert alpha blending and routing"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="以可解释的 Linear IC 为锚，用 XGBoost 学习它的残差排序、40 日 GRU 补充正交时序信号，再由一个只使用滞后信息的因果路由器，决定每一期给非线性模型多少权重。"
+          en="An interpretable Linear IC anchor, an XGBoost model that learns its residual ranks, and a 40-day GRU that adds orthogonal temporal signal. A causal router that sees only lagged information decides how much weight the nonlinear experts receive each period."
+        />
+      </div>
+      <ul class="pills">
+        <li class="pill">Python</li>
+        <li class="pill">XGBoost</li>
+        <li class="pill">PyTorch / CUDA</li>
+        <li class="pill">Clarabel · Gurobi</li>
+        <li class="pill">
+          <span data-i18n="zh">5 bps 单边成本</span>
+          <span data-i18n="en">5 bps one-way cost</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band-soft band-sm">
+    <div class="wrap">
+      <div class="metrics">
+        <div class="metric featured">
+          <div class="v">1.168</div>
+          <Bi tag="div" class="k" zh="信息比率（基准 1.010）" en="Information ratio (baseline 1.010)" />
+        </div>
+        <div class="metric">
+          <div class="v">+35.45%</div>
+          <Bi tag="div" class="k" zh="净主动累计收益（基准 30.41%）" en="Net active return (baseline 30.41%)" />
+        </div>
+        <div class="metric">
+          <div class="v">-6.49%</div>
+          <Bi tag="div" class="k" zh="主动最大回撤（基准 -7.67%）" en="Active max drawdown (baseline -7.67%)" />
+        </div>
+        <div class="metric">
+          <div class="v">48.71%</div>
+          <Bi tag="div" class="k" zh="平均单边换手（基准 48.77%）" en="Average turnover (baseline 48.77%)" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">01 / Problem</span>
+        <Bi tag="h2" zh="研究问题与动机" en="Research problem and motivation" />
+      </div>
+      <div class="prose">
+        <Bi
+          zh="指数增强要的是稳定的超额收益。非线性模型在截面 RankIC 上往往更有表现力，但把固定的高权重直接压给它们，组合收益和 IR 反而变差：信号的信噪比会随市场状态漂移，多出来的换手还要付成本。所以真正的问题不是「能不能造出更强的信号」，而是「凭什么相信它这一期值得下注」。"
+          en="An enhanced index needs stable active return. Nonlinear models often look better on cross-sectional RankIC, but pinning them at a high fixed weight makes portfolio return and IR worse: the signal-to-noise ratio drifts with the market regime, and the extra turnover has to be paid for. The real question is not whether a stronger signal can be built, but why it deserves capital this period."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">02 / Method</span>
+        <Bi tag="h2" zh="模型框架与设计约束" en="Model framework and design constraints" />
+      </div>
+      <div class="features">
+        {features.map((f) => (
+          <div class="feature">
+            <span class="n">{f.n}</span>
+            <Bi tag="h3" zh={f.zh} en={f.en} />
+            <Bi tag="p" zh={f.dzh} en={f.den} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">03 / Architecture</span>
+        <Bi tag="h2" zh="系统架构与信号流" en="System architecture and signal flow" />
+      </div>
+      <figure>
+        <img
+          src={diagramZh}
+          data-src-zh={diagramZh}
+          data-src-en={diagramEn}
+          alt="动态多专家 Alpha 融合与路由架构图"
+          data-alt-zh="动态多专家 Alpha 融合与路由架构图"
+          data-alt-en="Dynamic multi-expert alpha blending and routing architecture"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="三个专家并列产出信号，路由器仅使用滞后证据分配权重；合成 Alpha 再经类 Barra 风险模型与跟踪误差约束优化，输出目标权重。左侧虚线回环为路由器每期的更新输入。"
+            en="Three experts produce signals in parallel; the router allocates weights from lagged evidence only. The blended alpha then passes through a Barra-style risk model and tracking-error constrained optimisation. The dashed loop is the router's per-period update."
+          />
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band band-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">04 / Results</span>
+        <Bi
+          tag="h2"
+          zh="样本外结果与绩效对比"
+          en="Out-of-sample results and performance comparison"
+        />
+      </div>
+      <div class="prose">
+        <Bi
+          zh="留出区间 2022-01-18 → 2026-04-30。三条链路使用相同的持仓股票池、相同的 Barra 风险模型、相同优化器，以及单边 5 bps 交易成本。"
+          en="Holdout from 2022-01-18 to 2026-04-30. All three paths share the same universe, Barra risk model, optimiser and a 5 bps one-way cost."
+        />
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th><span data-i18n="zh">指标</span><span data-i18n="en">Metric</span></th>
+            <th class="num">
+              <span data-i18n="zh">Linear IC（基准）</span>
+              <span data-i18n="en">Linear IC (baseline)</span>
+            </th>
+            <th class="num">
+              <span data-i18n="zh">动态融合（本工作）</span>
+              <span data-i18n="en">Dynamic blend (this work)</span>
+            </th>
+            <th class="num">
+              <span data-i18n="zh">固定 80/20 残差 GRU</span>
+              <span data-i18n="en">Fixed 80/20 residual GRU</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr>
+              <td><Bi tag="span" zh={r.zh} en={r.en} /></td>
+              <td class="num">{r.base}</td>
+              <td class="num"><span class="hl">{r.dyn}</span></td>
+              <td class="num">{r.fix}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <figure>
+        <Shot
+          name="p2_key_metrics"
+          altZh="三种策略在冻结留出区间的四项决策指标对比"
+          altEn="Four decision metrics across the three strategies on the frozen holdout"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+          zh="四项决策指标：a 累计超额、b 信息比率、c 主动最大回撤、d 平均单边换手，柱上为数值。深黑为动态融合，浅灰为 Linear IC 基准，中灰为固定权重对照。动态融合在三项上优于基准，换手基本不变。"
+          en="Four decision metrics: a cumulative active return, b information ratio, c active maximum drawdown, d average one-way turnover, values on the bars. Ink is the dynamic blend, light grey the Linear IC baseline, mid grey the fixed-weight control."
+          />
+        </figcaption>
+      </figure>
+
+      <div class="callout dark">
+        <Bi
+          tag="span"
+          zh="固定 80/20 那一路的平均 RankIC 最高（6.630%），组合结果却最差：累计收益 25.68%、IR 0.844、主动回撤 -11.63%。信号更强，不等于组合更好。"
+          en="The fixed 80/20 path has the best mean RankIC (6.630%) and the worst portfolio: 25.68% cumulative return, 0.844 IR, -11.63% active drawdown. A stronger signal is not a better portfolio."
+        />
+      </div>
+
+      <figure class="fig-narrow">
+        <Shot
+          name="p2_signal_vs_ir"
+          altZh="平均区间 RankIC 与信息比率的关系：信号最强的策略组合表现最差"
+          altEn="Mean period RankIC against information ratio: the best signal has the worst portfolio outcome"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+          zh="横轴是信号质量，纵轴是组合的风险调整后收益。固定 80/20 残差 GRU 信号最强却落在右下角；动态融合信号仅略优于基准，却拿到最高的 IR。"
+          en="Signal quality on the x-axis, risk-adjusted portfolio outcome on the y-axis. The fixed 80/20 residual GRU has the best signal yet sits in the bottom right; the dynamic blend takes the highest IR."
+          />
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">05 / Evidence</span>
+        <Bi tag="h2" zh="路由器证据与权重分配" en="Router evidence and weight allocation" />
+      </div>
+      <div class="prose">
+        <Bi
+          zh="留出期 52 期的平均执行权重：Linear 97.6746%、残差 XGB 0.0045%、GRU 2.3209%；XGB 的最大单期权重也只有 0.0584%。它不是「忘记」了 XGB，而是在当时可见的证据下几乎关掉了它。"
+          en="Average executed weights across the 52 holdout periods: Linear 97.6746%, residual XGB 0.0045%, GRU 2.3209%; XGB's single-period maximum was 0.0584%. The router did not forget XGBoost. Given the evidence available, it shut it down."
+        />
+      </div>
+
+      <figure>
+        <Shot
+          name="p2_router_evidence"
+          altZh="路由器可见的滞后 OOF RankIC：滚动均值与单期分布"
+          altEn="The lagged OOF RankIC the router sees: rolling mean and per-period distribution"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+          zh="路由器每期实际可见的滞后样本外证据，共 135 期（2014-12 → 2026-02）。a 为 12 期滚动均值；b 为单期分布，箱体是中位数与四分位距，须线 1.5×IQR，散点是每期实际取值（每组 n = 135）。单期标准差：Linear 0.039、XGBoost 0.116、GRU 0.203。这是路由器的输入，不是可交易信号，区间与上方留出不同。"
+          en="The lagged out-of-fold evidence the router actually saw, 135 periods (2014-12 to 2026-02). a is the 12-period rolling mean; b is the per-period distribution, box is median and IQR, whiskers 1.5x IQR, dots are every period (n = 135 per group). Per-period standard deviation: Linear 0.039, XGBoost 0.116, GRU 0.203. This is the router's input, not a tradable signal."
+          />
+        </figcaption>
+      </figure>
+
+      <div class="prose">
+        <Bi
+          zh="另一轮研究回测覆盖 2016-01-12 → 2026-06-08，共 2,525 个交易日、125 个持有期：净主动累计收益 108.13%、年化主动 7.59%、信息比率 1.150（均已扣建模交易成本）。这说明方法不只在单一区间成立，但对外表述仍以冻结留出为准。"
+          en="A separate research backtest covers 2016-01-12 to 2026-06-08, 2,525 trading days across 125 holding periods, with 108.13% net active cumulative return, 7.59% annualised active return and a 1.150 information ratio after modelled costs. This supports the method beyond a single window, but the frozen holdout remains the headline claim."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">06 / Implementation</span>
+        <Bi tag="h2" zh="工程实现与可复现性" en="Implementation and reproducibility" />
+      </div>
+      <div class="features">
+        <div class="feature">
+          <span class="n">01</span>
+          <Bi tag="h3" zh="配置驱动" en="Configuration driven" />
+          <Bi
+            tag="p"
+            zh="全套 YAML：换模型、改窗口、调约束都不需要改代码。"
+            en="Everything is YAML: swapping models, windows or constraints needs no code change."
+          />
+        </div>
+        <div class="feature">
+          <span class="n">02</span>
+          <Bi tag="h3" zh="训练与缓存" en="Training and caching" />
+          <Bi
+            tag="p"
+            zh="XGBoost 走 GPU，PyTorch 走 CUDA AMP；GRU 按季度重训、三个固定种子取平均，权重缓存供跨月进程复用。"
+            en="XGBoost on GPU, PyTorch with CUDA AMP; the GRU refits quarterly with three seeds averaged, cached for monthly reuse."
+          />
+        </div>
+        <div class="feature">
+          <span class="n">03</span>
+          <Bi tag="h3" zh="全程可回溯" en="Traceable by design" />
+          <Bi
+            tag="p"
+            zh="每个调仓日输出 alpha、专家打分、OOF 历史、因子权重、风险诊断与 TE 校准。"
+            en="Every rebalance writes alpha, expert scores, OOF history, factor weights, risk diagnostics and TE calibration."
+          />
+        </div>
+        <div class="feature">
+          <span class="n">04</span>
+          <Bi tag="h3" zh="可独立核对" en="Independently checkable" />
+          <Bi
+            tag="p"
+            zh="不放源码，但 alpha_oof_history.csv、summary.csv 与逐期结果均可复算，本页所有图都由这些文件重算得到。"
+            en="No source is published, but alpha_oof_history.csv, summary.csv and the period results can be recomputed. Every figure here derives from them."
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">07 / Limitations</span>
+        <Bi tag="h2" zh="局限性与后续工作" en="Limitations and future work" />
+      </div>
+      <div class="prose">
+        <ul>
+          <li>
+            <Bi
+              tag="span"
+              zh="以上全部是历史回测结果，不是实盘业绩，对股票池、风险预算、调仓频率与成本假设敏感。"
+              en="All figures are historical backtest results, not live performance, and are sensitive to the universe, risk budget, schedule and costs."
+            />
+          </li>
+          <li>
+            <Bi
+              tag="span"
+              zh="非线性增量在近年数据上仍不稳定：GRU 只在部分时段提供增量，XGB 在留出期几乎没有。"
+              en="The nonlinear increment is still unstable on recent data: the GRU adds value in some regimes only, XGBoost contributes almost nothing."
+            />
+          </li>
+          <li>
+            <Bi
+              tag="span"
+              zh="路由器的证据是滞后的，遇到市场状态突变会反应偏慢，这是用「稳」换来的代价。"
+              en="The router's evidence is lagged, so it reacts slowly to regime breaks. That is the price of stability."
+            />
+          </li>
+          <li>
+            <Bi
+              tag="span"
+              zh="下一步：把组合层收益（而不是全截面 RankIC）直接作为训练目标，并只在 Linear 高分候选集内做非线性重排。"
+              en="Next: train against a portfolio-level objective instead of full cross-sectional RankIC, and re-rank only within the high-scoring Linear candidate set."
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-soft">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="label">08 / References</span>
+        <Bi tag="h2" zh="材料与数据来源" en="Materials and data sources" />
+      </div>
+      <div class="prose">
+        <ul>
+          <li>
+            <a href={diagramZh}>
+              <span data-i18n="zh">架构图（中文）</span>
+              <span data-i18n="en">Architecture diagram (Chinese)</span>
+            </a>
+            ·
+            <a href={diagramEn}>
+              <span data-i18n="zh">架构图（英文）</span>
+              <span data-i18n="en">Architecture diagram (English)</span>
+            </a>
+          </li>
+          <li>
+            <Bi
+              tag="span"
+              zh="数据来源：内部冻结留出结果目录与 OOF 历史文件（不公开，可当面演示复算）。"
+              en="Data source: internal frozen-holdout result directory and OOF history files (not public; recomputation can be demonstrated in person)."
+            />
+          </li>
+        </ul>
+      </div>
+      <div class="pager">
+        <a href={base}>
+          <span data-i18n="zh">← 返回首页</span>
+          <span data-i18n="en">← BACK TO HOME</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,102 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="ROE 质量因子递进比较 · Quant Research Portfolio"
+  description="把「持续高 ROE」从硬筛选连续化成截面分位，在同一条股票截面上比较三层递进因子"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">专题 · 沪深全市场 · 2018-01 – 2026-08 · 103 个有效 RankIC 月份</span>
+        <span data-i18n="en">Study · full A-share market · 2018-01 – 2026-08 · 103 valid RankIC months</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="ROE 质量因子递进比较（沪深全市场）"
+          en="Progressive ROE quality factors (full A-share market)"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="将原报告中的「持续高 ROE」由硬筛选改为截面分位，再评估逐层增加的因子是否带来增量。"
+          en="Turns the report's “persistently high ROE” from a hard screen into a cross-sectional percentile, then assesses whether each added layer contributes."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原报告方法" en="Source method" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="《ROE 稳定与 ROE 提升下的两类策略构建》（申万金工，2026-03-16）：以近 9 个季度（不足 9 季则至少 6 季）ROE TTM 均不低于 10% 筛出高 ROE 池；池内按稳定性因子（ROE 稳定性、营业收入 TTM 环比增速稳定性、有息负债／总资产稳定性三者等权）分组取最稳定一组，再以成长、波动性、长期动量、股息率四因子等权打分选取前 50 只等权持有、月度调仓；报告另给出 ROE 提升策略。"
+              en="“Two strategy families under ROE stability and ROE improvement” (SWS, 2026-03-16): a high-ROE pool is screened on ROE TTM staying above 10% for nine quarters (six if the history is shorter); within the pool a stability factor — the equal-weighted combination of ROE stability, operating-revenue TTM growth stability, and interest-bearing debt to total assets stability — splits the names and the most stable group is kept; that pool is then scored equally on growth, volatility, long-term momentum and dividend yield, holding the top 50 equally, monthly. The report also presents an ROE-improvement strategy."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="仅复现稳定部分，不复现 ROE 提升策略；不使用原候选池与 10% 硬筛选，而将「持续高 ROE」连续化为近 9 个季度（至少 6 个季度）ROE TTM 最低值在当月的全市场百分位，使每只有足够历史的股票都保留在截面内；三层因子在同一条「六项输入齐全」的股票截面上递进比较。"
+              en="Only the stability half is reproduced; the ROE-improvement strategy is out of scope. No original candidate pool and no 10% hard screen are used: “persistently high ROE” becomes continuous — the minimum ROE TTM over the latest nine quarters (at least six) ranked as a market-wide percentile — so every stock with enough history stays in the cross-section, and the three layers are compared progressively on one identical cross-section of stocks with all six inputs present."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="同一条股票截面上三层递进：仅用稳定性因子 RankIC 1.95%（ICIR 0.386，t 3.92）；加入 ROE 水平后 2.66%（1% 水平显著）；再加入增长、低波、动量、股息四项后 3.69%，但仅在 5% 水平显著，ICIR 与方向正确率反而下降，2021 与 2025 年度平均 RankIC 为负。最高分组的绝对收益更高，但换手、多空波动与回撤同时更高，仅凭全样本平均 RankIC 不足以判定其优于前两层。"
+              en="Three layers on one identical cross-section: stability alone 1.95% RankIC (ICIR 0.386, t 3.92); adding the ROE level 2.66% (significant at 1%); adding growth, low volatility, momentum and dividend yield 3.69%, significant only at 5%, with ICIR and hit rate falling and negative yearly mean RankIC in 2021 and 2025. The top bucket earns more in absolute terms but also carries more turnover, long-short volatility and drawdown, so full-sample mean RankIC alone does not establish that it is better than the two layers below."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="月频生成：月末生成因子、下一交易日执行，最后一期因无下一月标签不进 RankIC；每组截面覆盖 2,279–4,908 只股票，样本共 103 个有效月份。"
+              en="Monthly: factors are generated at month end and executed the next trading day, with the final period dropping out for lack of a next-month label. Each cross-section covers 2,279–4,908 names across 103 valid months."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="分组回测未施加 ST、停牌、涨跌停与流动性过滤，交易成本设为 0，结果属于因子研究而非实盘净收益；t 检验尚未对 RankIC 序列相关做 Newey-West 调整；源数据是否保留退市股票、历史修订版本与精确复权口径仍属外部风险。"
+              en="The grouped backtest applies no ST, suspension, price-limit or liquidity filter and charges zero cost, so this is factor research rather than net live performance. The t-test has no Newey-West adjustment for RankIC serial correlation yet, and whether the source data retains delisted names, restatements and an exact adjustment convention remains an external risk."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}notes/skew-kurtosis-constraints/`}>
+          <span data-i18n="zh">← 偏度 / 峰度约束</span>
+          <span data-i18n="en">← Skew and kurtosis</span>
+        </a>
+        <a href={`${base}notes/rl-portfolio-optimisation/`}>
+          <span data-i18n="zh">下一则 · RL 组合优化对照 →</span>
+          <span data-i18n="en">Next · RL portfolio optimisation →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

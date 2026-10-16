@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="'Microsoft YaHei','Noto Sans SC','PingFang SC',sans-serif">
+  <rect width="1200" height="720" fill="#ffffff"/>
+  <text x="60" y="52" font-size="28" font-weight="700" fill="#171717">AlphaCube · 一个三维张量，三张面，一个引擎</text>
+  <text x="60" y="82" font-size="15" fill="#5c5c5c">数据 =（S 股票, D 交易日, M 分钟）；同一个二维核函数在不同面上语义不同，必须双份注册并用名字消歧</text>
+  <line x1="60" y1="100" x2="1140" y2="100" stroke="#e8e8e8" stroke-width="2"/>
+
+  <polygon points="120,480 320,480 320,300 120,300" fill="#f0f0f0" stroke="#4d4d4d" stroke-width="2"/>
+  <polygon points="120,300 320,300 390,230 190,230" fill="#f7f7f7" stroke="#4d4d4d" stroke-width="2"/>
+  <polygon points="320,480 320,300 390,230 390,410" fill="#e6e6e6" stroke="#4d4d4d" stroke-width="2"/>
+
+  <text x="170" y="512" font-size="14" font-weight="700" fill="#4d4d4d">S（股票）</text>
+  <text x="100" y="400" font-size="14" font-weight="700" fill="#4d4d4d" transform="rotate(-90 100 400)">D（交易日）</text>
+  <text x="332" y="248" font-size="14" font-weight="700" fill="#4d4d4d">M（分钟）</text>
+  <text x="150" y="548" font-size="13" fill="#5c5c5c">一个数据对象：立方体 (S, D, M)</text>
+  <text x="150" y="574" font-size="13" fill="#5c5c5c">约 242 个可搜索算子 · 一份注册表</text>
+
+  <rect x="540" y="152" width="600" height="132" rx="10" fill="#f7f7f7" stroke="#4d4d4d" stroke-width="2"/>
+  <text x="562" y="188" font-size="17" font-weight="700" fill="#4d4d4d">DT 面 · (D, M)，固定股票</text>
+  <text x="562" y="216" font-size="13" fill="#5c5c5c">分钟内滚动（in_*）· 日内归约（day_*）· 跨日（cross_*）</text>
+  <text x="562" y="240" font-size="13" fill="#5c5c5c">计算轴分别是 M、M 归约、D</text>
+  <text x="562" y="266" font-size="13" fill="#5c5c5c">按股票或按日分块执行</text>
+
+  <rect x="540" y="304" width="600" height="132" rx="10" fill="#f7f7f7" stroke="#dcdcdc"/>
+  <text x="562" y="340" font-size="17" font-weight="700" fill="#4d4d4d">ND 面 · (D, S)，分钟已归约</text>
+  <text x="562" y="368" font-size="13" fill="#5c5c5c">截面（cs_*）· 时序（ts_*）</text>
+  <text x="562" y="392" font-size="13" fill="#5c5c5c">这是原项目里唯一存在的日频面板，现在只是三张面之一</text>
+  <text x="562" y="418" font-size="13" fill="#5c5c5c">整面板驻内存执行</text>
+
+  <rect x="540" y="456" width="600" height="132" rx="10" fill="#fafafa" stroke="#d4d4d4"/>
+  <text x="562" y="492" font-size="17" font-weight="700" fill="#4d4d4d">NT 面 · (M, S)，固定日（新增表达力）</text>
+  <text x="562" y="520" font-size="13" fill="#5c5c5c">每分钟跨股票截面（nt_cs_*）· 分钟内时序（nt_ts_*）</text>
+  <text x="562" y="544" font-size="13" fill="#5c5c5c">"每分钟跨股票排序再日内聚合"这类因子在原架构写不出来</text>
+  <text x="562" y="570" font-size="13" fill="#5c5c5c">按日分块、逐日调核（定义本身，不是实现细节）</text>
+
+  <rect x="60" y="640" width="1080" height="60" rx="10" fill="#f5f5f5" stroke="#d4d4d4"/>
+  <text x="80" y="676" font-size="14" fill="#4d4d4d">一个引擎（分块 × 轮次调度）· 一个解析器 · 静态类型：collapsed / degenerate / width；任意分块与轮次结构结果逐 bit 不变</text>
+</svg>

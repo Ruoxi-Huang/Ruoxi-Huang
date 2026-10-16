@@ -1,0 +1,98 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="时点动量复现 · Quant Research Portfolio"
+  description="复现国信金工《时点动量全解析》的行业轮动层，并判断报告宣称的收益能否在当前数据条件下验证"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">复现 · 2013-01 – 2026-07 · 行业轮动层</span>
+        <span data-i18n="en">Reproduction · 2013-01 – 2026-07 · industry rotation</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi tag="h1" zh="时点动量（国信金工）" en="Timing momentum (Guosen)" />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="复现关键时点信号，并检验原报告所宣称的收益在当前数据条件下能否成立。"
+          en="Reproduces the report's critical-moment signals and tests whether its claimed return holds up on the data actually available."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原报告方法" en="Source method" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="原报告在中证全指上识别关键时点信号，于信号日对行业按动量排序、分组检验并计算多空净值，宣称年化 60.55%、超额 49.89%。"
+              en="The report identifies critical-moment signals on the CSI All Share, then ranks industries by momentum on those days, tests them in groups and computes long-short NAV, claiming 60.55% annualised and 49.89% excess."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="仅复现行业轮动层，不含个股层；多空两腿均在信号后持有 20 个交易日、无信号时不持有，成本按单边 15bp 乘以当期单边换手计提（含首次建仓）；行业分类采用两套并行重建（本地 barra 归属重建的 30 个中信一级行业、库内 125 个申万二级指数）以检验口径敏感性。"
+              en="Only the industry-rotation layer is reproduced, not the stock-level one; both legs are held for 20 trading days after a signal and are flat otherwise, with 15bp one-way costs charged against that period's turnover including the first build. Industries are rebuilt two ways in parallel — 30 CITIC level-1 industries from local Barra membership and the 125 SW level-2 indices in the database — to test how sensitive the result is to that choice."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="行业轮动层本身可以复现，但报告宣称的年化 60.55%、超额 49.89% 在当前数据条件下无法验证；北向动量因子因库内数据止于 2024-08 未能复现。"
+              en="The industry-rotation layer itself reproduces, but the report's claimed 60.55% annualised and 49.89% excess cannot be verified on the available data, and the northbound-flow factor is unreproducible because the data stops in 2024-08."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="净值口径：行业等权基准全程持有，多空两腿仅在信号后持有 20 个交易日；两套行业划分方向一致，绝对数值不可逐点对齐。"
+              en="NAV convention: the industry equal-weight benchmark is held throughout, while both legs are held only for the 20 trading days after a signal; the two industry classifications agree in direction but not point by point."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="多头净值约有 42% 的交易日不持有头寸，无法与长期持有基准直接比较；缺少北向动量使结论的完整性下降；「无法验证」不等于「原报告有误」。"
+              en="The long leg holds no position on roughly 42% of trading days, so it cannot be compared with a buy-and-hold benchmark directly; the missing northbound factor reduces how complete the conclusion is; “cannot be verified” is not the same as “incorrect”."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}notes/factor-resonance/`}>
+          <span data-i18n="zh">← 因子共振复现</span>
+          <span data-i18n="en">← Factor resonance</span>
+        </a>
+        <a href={`${base}notes/three-part-strategy/`}>
+          <span data-i18n="zh">下一则 · 三部分策略复现 →</span>
+          <span data-i18n="en">Next · Three-part strategy →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

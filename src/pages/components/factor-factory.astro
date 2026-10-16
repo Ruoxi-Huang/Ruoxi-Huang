@@ -1,0 +1,82 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="因子工厂与数据管道 · Quant Research Portfolio"
+  description="149 个标准化因子面板的构建与维护：PostgreSQL 全量/增量重建、追加去重、本地 Feather 快照、新鲜度与覆盖率校验"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">支撑组件 01 · 数据管道</span>
+        <span data-i18n="en">Component 01 · Data pipeline</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="因子工厂与数据管道"
+          en="Factor factory and data pipeline"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="把数据到因子的构建过程做成可重复、可校验的流水线。"
+          en="Turns the path from data to factors into a repeatable, checkable pipeline."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="产出" en="Output" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="149 个标准化因子面板：97 个量价、45 个基本面，以及 7 个 ROE 研究因子；全部进行行业与市值中性化，中性化所依赖的 barra 暴露文件单独交付。"
+              en="149 standardised factor panels: 97 price-volume, 45 fundamental and 7 ROE research factors, all industry- and size-neutralised. The Barra exposure file the neutralisation relies on is delivered separately."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="PostgreSQL 全量 / 增量重建并追加去重；本地 Feather 快照以避免重复拉取大表；每次更新后校验全部输出是否对齐最新交易日。"
+              en="Full and incremental PostgreSQL rebuilds with append-and-deduplicate, local Feather snapshots to avoid re-reading large source tables, and a freshness check that every output is aligned to the latest trading day."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="新鲜度与覆盖率由脚本校验保证，但不保证上游数据本身完整；因子口径变更需整链重算；中性化依赖 barra 暴露文件。"
+              en="Freshness and coverage are enforced by script checks rather than by the upstream data being complete; a change in factor definition requires a full-chain rebuild; neutralisation depends on the Barra exposure file."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={base}>
+          <span data-i18n="zh">← 返回首页</span>
+          <span data-i18n="en">← Home</span>
+        </a>
+        <a href={`${base}components/single-factor-harness/`}>
+          <span data-i18n="zh">组件 02 · 单因子检验体系 →</span>
+          <span data-i18n="en">Component 02 · Single-factor harness →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

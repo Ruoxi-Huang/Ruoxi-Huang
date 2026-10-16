@@ -1,0 +1,92 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="三部分策略复现 · Quant Research Portfolio"
+  description="市场择时、戴维斯双击与沪深 300 增强三部分逐项复现与判定"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">复现 · 回测截至 2026-07-27</span>
+        <span data-i18n="en">Reproduction · backtest to 2026-07-27</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="三部分策略（择时 / 戴维斯双击 / 沪深 300 增强）"
+          en="Three-part strategy (timing, Davis double-play, CSI 300 enhancement)"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="对原报告的三部分策略分别复现并给出判定：哪一部分值得继续推进，哪一部分暂不采用。"
+          en="The report's three strategies are reproduced separately and judged individually: which is worth pursuing further, and which should wait."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原报告方法" en="Source method" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="来源为《反弹延续，从「高景气」到「困境反转」》（2026-08-30）与天风证券戴维斯双击量化选股模型（2017-06-12）；两份材料给出三套相互独立的策略：市场择时、戴维斯双击选股与沪深 300 增强。"
+              en="The sources are “Rebound Continuation: From High Prosperity to Turnaround” (2026-08-30) and TF Securities' Davis double-click stock-selection model (2017-06-12); together they describe three standalone strategies: market timing, Davis double-click selection and CSI 300 enhancement."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="三部分各自独立回测，并按统一口径重算：财务与估值信号按历史可得日映射、下一交易日执行；个股用复权价而基准用价格指数（两者口径并不一致，已披露）；停牌收益按 0 处理，涨跌停与缺失报价未完整模拟；未计费用、滑点与冲击成本；胜率按完整连续信号大区间统计，而不是逐日统计。"
+              en="Each part is backtested separately and recomputed under one convention: fundamental and valuation signals map to their historically available date and execute the next trading day; stock legs use adjusted prices while the benchmark is a price index (the two conventions differ, and this is disclosed); suspended names earn zero, price limits and missing quotes are not fully simulated; fees, slippage and impact are not charged; hit rates are counted over complete continuous signal runs rather than day by day."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="市场择时的方向胜率为 30.88%，策略年化 4.62% 低于中证 800 的 4.95%，且波动与最大回撤更高，不作为独立杠杆择时的依据。戴维斯双击年化 16.66%、累计 1053.78%，但平均单边换手偏高；1,650 条计划建仓记录中有 32 条缺执行收盘价、64 条处于涨跌停价，且未计入成本与滑点，需先完成可交易性压力测试。沪深 300 增强相对历史权重复制组合累计增益 13.08%、信息比率 0.69，为三项中最值得推进的一项。"
+              en="Market timing wins 30.88% of its directional calls and returns 4.62% a year against the CSI 800's 4.95%, with higher volatility and drawdown, so it is not a basis for standalone leveraged timing. The Davis double-play returns 16.66% a year and 1053.78% cumulative, but turnover is high: of 1,650 planned entries, 32 lack an execution close and 64 sit at price limits, with no cost or slippage model, so a tradability stress test comes first. The CSI 300 enhancement adds 13.08% cumulative over a historical-weight replication at a 0.69 information ratio and is the one of the three worth pushing."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="前两项的判定是「暂不推进」，并非「策略无效」；第三项的增益中包含复权口径与历史权重复制误差，不能全部归因于选股信号。"
+              en="For the first two, the verdict is “do not pursue yet”, not “the strategy fails”; the third one's gain also contains adjustment-convention and weight-replication error, so it cannot all be attributed to the stock-selection signal."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}notes/timing-momentum/`}>
+          <span data-i18n="zh">← 时点动量复现</span>
+          <span data-i18n="en">← Timing momentum</span>
+        </a>
+        <a href={`${base}notes/domain-constraint-sweep/`}>
+          <span data-i18n="zh">下一则 · 分域约束扫描 →</span>
+          <span data-i18n="en">Next · Domain-constraint sweep →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

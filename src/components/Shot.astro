@@ -1,0 +1,26 @@
+---
+/**
+ * Figure image whose source follows the active language. Both paths are in the
+ * markup so the inline toggle script can swap `src` without a reload.
+ */
+interface Props {
+  name: string;
+  altZh: string;
+  altEn: string;
+}
+
+const { name, altZh, altEn } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const zh = `${base}figures/${name}_zh.png`;
+const en = `${base}figures/${name}_en.png`;
+---
+
+<img
+  src={zh}
+  data-src-zh={zh}
+  data-src-en={en}
+  alt={altZh}
+  data-alt-zh={altZh}
+  data-alt-en={altEn}
+  loading="lazy"
+/>

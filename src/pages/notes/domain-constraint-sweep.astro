@@ -1,0 +1,112 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="分域约束扫描（中证 800） · Quant Research Portfolio"
+  description="把报告的波动率/动量/市值分域约束放到自有 alpha 上逐个检验，并用安慰剂对照判断改进是否真实"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">专题 · 中证 800 · 2021-01 – 2026-07 · 67 个调仓日</span>
+        <span data-i18n="en">Study · CSI 800 · 2021-01 – 2026-07 · 67 rebalance dates</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="分域约束扫描（中证 800）"
+          en="Domain-constraint sweep (CSI 800)"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="原报告认为按风格因子分域、对高分组放松个股权重偏离约束可提升超额收益；在本文的 alpha 与风险模型上，该方向产生负向影响。"
+          en="The report argues that splitting the universe by style factor and loosening the per-name deviation constraint for the high group improves excess return; on this alpha and risk model, that direction has a negative effect."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原报告方法" en="Source method" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="《使用因子分域提升指数增强组合超额收益》（申万金工，2026-06）：先按风格因子（波动性、流动性、估值、动量、反转、市值）把股票池分为低、高两组，比较因子在两组的选股效果，发现成长、盈利、波动性、动量等因子在高组内更有效，因而对高组放松个股权重偏离约束、对低组维持或收紧；改进结论在中证 500 指增组合上给出，并在沪深 300、中证 1000 与另一套选股模型上复验。"
+              en="“Using factor domains to improve excess return in enhanced-index portfolios” (SWS, 2026-06): the universe is split into low and high groups by a style factor (volatility, liquidity, valuation, momentum, reversal, size); factor performance is compared across the two groups, and growth, profitability, volatility and momentum prove stronger in the high group, so the per-name deviation constraint is loosened for the high group and held or tightened for the low group. The improvement is shown on a CSI 500 enhanced-index portfolio and re-tested on CSI 300, CSI 1000 and a second stock-selection model."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="将该约束迁移到自有 alpha 与生产风险模型上逐一扫描（分层 2/5 档、五组中性、三类前 10% 中性、两种组合方案），并将方向与分位反转后再测一次；结果显示反转方向有效，原报告方向无效。"
+              en="The scheme is transplanted onto our own alpha and production risk model and swept scheme by scheme (two- and five-bucket layering, five-group neutralisation, three top-10% neutralisations, two combined schemes), then re-run with the direction and the quantiles reversed; the reversed direction works and the reported direction does not."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="按原报告方向的四类约束全部降低 IR（−0.06 ~ −0.30）：低波动暴露本身就是该 alpha 的来源（横截面 alpha 与波动的 RankIC 为 −0.35），按原方向约束会削弱这一来源。改为相反方向与对应分位后（动量前 20% 中性 + 反向五档波动分层），年化超额 4.83% → 5.93%，IR 0.602 → 0.747，超额最大回撤 −15.20% → −12.81%，单边换手仅增加 2.4pp。"
+              en="All four constraints run in the report's direction lower IR (−0.06 to −0.30): low-volatility exposure is itself a source of this alpha (cross-sectional alpha-versus-volatility RankIC of −0.35), and constraining in that direction strips the source out. Correcting both the direction and the quantiles (neutralise the top 20% by momentum, invert the five volatility buckets) moves annualised excess from 4.83% to 5.93%, IR from 0.602 to 0.747 and active max drawdown from −15.20% to −12.81%, for only 2.4pp more one-way turnover."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="对照检验" en="Control test" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="以 20 组随机股票执行相同的中性化操作（与因子无关）作为安慰剂组：零假设分布均值 −0.0129、标准差 0.0580、最大值 +0.0913，分域方案的 ΔIR 多数落在该分布的右尾之外。"
+              en="Twenty random stock groups undergo the same neutralisation (unrelated to the factor) as a placebo: the null distribution has mean −0.0129, standard deviation 0.0580 and maximum +0.0913, and the domain scheme's ΔIR mostly falls beyond its right tail."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="唯一变量是约束：alpha、因子、风险模型、股票池、调仓频率与 5bp 单边成本全部保持一致；CLARABEL 二阶锥求解，年化 TE 上限 15%。"
+              en="The constraint is the only variable: alpha, factors, risk model, universe, rebalance frequency and 5bp one-way costs stay fixed, solved as a second-order cone problem in CLARABEL with a 15% annualised TE cap."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="20 组安慰剂只能把经验 p 值的分辨率做到 0.048，严格结论需要 100 组以上；月度配对差异 t 值约 1.0–1.1，2025 年组合方案反而落后于 base，66 期样本不足以支撑高置信度。方向可信，幅度仍待验证。"
+              en="Twenty placebo groups only resolve the empirical p-value to 0.048, where a firm conclusion wants 100 or more; the paired monthly difference has a t of about 1.0–1.1, the combined scheme lags the base in 2025, and 66 periods cannot support high confidence. The direction is credible; the magnitude is not yet verified."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}notes/three-part-strategy/`}>
+          <span data-i18n="zh">← 三部分策略复现</span>
+          <span data-i18n="en">← Three-part strategy</span>
+        </a>
+        <a href={`${base}notes/skew-kurtosis-constraints/`}>
+          <span data-i18n="zh">下一则 · 偏度 / 峰度约束 →</span>
+          <span data-i18n="en">Next · Skew and kurtosis →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

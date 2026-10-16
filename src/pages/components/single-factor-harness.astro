@@ -1,0 +1,82 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="单因子检验体系 · Quant Research Portfolio"
+  description="分组收益、RankIC、多空净值与稳定性标记：对一批因子做横向检验，作为其是否进入模型的依据"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">支撑组件 02 · 单因子检验</span>
+        <span data-i18n="en">Component 02 · Single-factor testing</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="单因子检验体系"
+          en="Single-factor test harness"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="对一批因子做横向检验，作为其是否进入模型的依据。"
+          en="Side-by-side testing across a batch of factors, used as the basis for admitting them to the model."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="产出" en="Output" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="分组收益、RankIC、多空净值与换手，以及历史对照近期的稳定性标记（large_change / invalidated / direction_reversal）。示例：WVAD 在 2005–2026 的 198 个有效期上 RankIC −0.0405、多空年化 −12.11%、Newey-West t 值 −9.19，判定为不通过。"
+              en="Grouped returns, RankIC, long-short NAV and turnover, plus historical-versus-recent stability flags (large_change / invalidated / direction_reversal). Example: WVAD records RankIC −0.0405, −12.11% annualised long-short and a Newey-West t of −9.19 over 198 valid periods (2005–2026) and fails the screen."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="信号取调仓日收盘价、收益自其后开始计，以避免同日前后视；多空净值按当期换手计提单边成本；每次检验的数值与图表均落盘，可独立复核。"
+              en="Signals use the rebalance-day close and returns start strictly after it, so nothing is same-day look-ahead; long-short NAV charges one-way costs against that period's turnover; every run is written to disk as re-checkable data and charts."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="分组回测未施加 ST、停牌、涨跌停与流动性过滤；高换手因子在计入成本后会进一步减弱，因此检验结论仅作为筛选依据，不构成可交易结论。"
+              en="The grouped backtest applies no ST, suspension, price-limit or liquidity filter; high-turnover factors weaken further once costs are charged, so a health check is a screen rather than a tradable conclusion."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}components/factor-factory/`}>
+          <span data-i18n="zh">← 组件 01 · 因子工厂与数据管道</span>
+          <span data-i18n="en">← Component 01 · Factor factory</span>
+        </a>
+        <a href={base}>
+          <span data-i18n="zh">返回首页 →</span>
+          <span data-i18n="en">Home →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

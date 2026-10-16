@@ -1,0 +1,19 @@
+---
+/**
+ * Renders one text node per language. The stylesheet hides whichever language
+ * is not active on <html data-lang>, so switching is instant and needs no
+ * re-render. Use tag="span" for inline fragments.
+ */
+interface Props {
+  zh: string;
+  en: string;
+  tag?: string;
+  class?: string;
+}
+
+const { zh, en, tag = "p", class: cls } = Astro.props;
+const Tag = tag as any;
+---
+
+<Tag data-i18n="zh" class={cls}>{zh}</Tag>
+<Tag data-i18n="en" class={cls}>{en}</Tag>

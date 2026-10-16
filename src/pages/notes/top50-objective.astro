@@ -1,0 +1,102 @@
+---
+import Base from "../../layouts/Base.astro";
+import Bi from "../../components/Bi.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="头部 50 只目标函数实验 · Quant Research Portfolio"
+  description="组合实际只买头部 6.25%，目标函数却按全截面打分：口径对齐后，复现器与已落盘决策的吻合度从 66% 升到 93.2%"
+>
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">
+        <span data-i18n="zh">专题 · 冻结研究版 · 2026-09</span>
+        <span data-i18n="en">Study · frozen research build · 2026-09</span>
+      </p>
+      <div class="hero-narrow">
+        <Bi
+          tag="h1"
+          zh="头部 50 只目标函数实验"
+          en="Objective function for a top-50 book"
+        />
+        <Bi
+          tag="p"
+          class="lede"
+          zh="组合实际仅持有头部 6.25% 的股票，目标函数却基于全截面评分。"
+          en="The book actually holds only the top 6.25% of the universe, while its objective function scores the entire cross-section."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rows">
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="原设定" en="Original setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="冻结研究版的目标函数按全截面打分，与「只买头部 6.25%」有三处不一致：混合权重用全截面 RankIC（0.8）加头尾各 20% 的收益差（0.2）；头尾差是多头减空头，而空头那一腿在纯多头组合里永远不会被交易；XGB 的 pairwise 排序与 GRU 的均匀配对都把梯度平摊在整个截面上，中部与尾部的排序误差占同样权重。"
+              en="The frozen build scores the whole cross-section, which disagrees with buying only the top 6.25% in three ways: blend weights use full cross-sectional RankIC (0.8) plus the top-minus-bottom 20% spread (0.2); that spread is long-minus-short while the short leg is never traded in a long-only book; and XGBoost's pairwise ranking and GRU's uniformly paired RankNet spread their gradients across the whole cross-section, weighting mid- and tail-ranking errors equally."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="本文调整" en="Adaptation" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="在不改动模型的前提下，先用冻结运行中 125 个已成熟的预测，按四个指标（RankIC、头部 20% 收益、头尾 20% 收益差、头部 6.25% 收益）逐专家计算，并拆分为开发段与测试段以判断是否存在指标增量；随后按头部口径重新定义目标函数，并逐期比对已落盘决策。"
+              en="Without touching the model, 125 matured predictions from the frozen run are scored for each expert under four metrics (RankIC, top-20% return, top-minus-bottom 20% spread, top-6.25% return) and split into development and test blocks to establish whether any metric increment exists; only then is the objective redefined for the top of the book and compared period by period against the stored decisions."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="主要结论" en="Result" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="口径对齐后，复现器与已落盘决策的吻合度由 66% 升至 93.2%，结论由「存在差异」转为「基本无差异」。指标本身的影响更为关键：在与目标一致的头部 6.25% 收益上，GRU 在测试段（29 期）仍有 +0.0078 的增量，而其 RankIC 增量为 −0.0081，指标选择会导致相反的结论。XGB 在测试段两个口径同时转负，与冻结实验「XGB 未通过验收」的判断一致。"
+              en="Once the definitions align, agreement between the replayer and the stored decisions rises from 66% to 93.2% and the conclusion moves from “there is a gap” to “essentially no gap”. The metric itself matters more than the rewrite: on the objective's own top-6.25% return, GRU still adds +0.0078 over the 29-period test block while its RankIC increment is −0.0081, so the choice of metric reverses the sign. XGBoost turns negative in the test block under both, consistent with the frozen build's verdict that it did not clear acceptance."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="实验口径" en="Setup" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="在冻结研究版的同一批调仓日与同一份 alpha 上做，逐期比对已落盘决策；不重新训练模型，也不改回测区间。"
+              en="Run on the frozen research build's own rebalance dates and alpha, compared period by period against the stored decisions; no retraining and no change of backtest window."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <span class="tag"><Bi tag="span" zh="局限与边界" en="Limits" /></span>
+          <div class="body">
+            <Bi
+              tag="p"
+              zh="吻合度提升仅说明口径已对齐，不等同于新目标函数能够改善组合；结论仅限该冻结版本，更换版本需重新比对。"
+              en="Higher agreement shows only that the definitions now line up; it does not show that the new objective improves the portfolio. The result applies to this frozen build only, and another version requires its own comparison."
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a href={`${base}notes/rl-portfolio-optimisation/`}>
+          <span data-i18n="zh">← RL 组合优化对照</span>
+          <span data-i18n="en">← RL portfolio optimisation</span>
+        </a>
+        <a href={`${base}notes/label-horizon/`}>
+          <span data-i18n="zh">下一则 · 标签周期选择 →</span>
+          <span data-i18n="en">Next · Label horizon →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

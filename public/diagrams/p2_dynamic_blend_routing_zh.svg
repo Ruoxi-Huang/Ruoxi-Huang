@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" font-family="Geist,'Inter','PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a1a1a1"/>
+    </marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#171717"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="720" fill="#ffffff"/>
+
+  <text x="60" y="58" font-size="30" font-weight="600" letter-spacing="-1.1" fill="#171717">动态多专家 Alpha 融合与路由</text>
+  <text x="60" y="88" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="13" letter-spacing="0.6" fill="#767676">LINEAR IC ANCHOR · XGBOOST RESIDUAL · GRU TEMPORAL · CAUSAL ROUTER</text>
+  <rect x="60" y="106" width="1080" height="2" fill="#171717"/>
+
+  <rect x="100" y="150" width="300" height="120" rx="8" fill="#ffffff" stroke="#171717" stroke-width="2"/>
+  <text x="122" y="190" font-size="17" font-weight="600" fill="#171717">Linear IC（锚）</text>
+  <text x="122" y="216" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">历史截面 RankIC / ICIR</text>
+  <text x="122" y="238" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">权重下限 ≥ 60%</text>
+
+  <rect x="460" y="150" width="300" height="120" rx="8" fill="#ffffff" stroke="#ebebeb" stroke-width="1.5"/>
+  <text x="482" y="190" font-size="17" font-weight="600" fill="#171717">XGBoost（残差）</text>
+  <text x="482" y="216" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">学 Linear 的点时序残差排序</text>
+  <text x="482" y="238" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">权重上限 ≤ 20%</text>
+
+  <rect x="820" y="150" width="300" height="120" rx="8" fill="#ffffff" stroke="#ebebeb" stroke-width="1.5"/>
+  <text x="842" y="190" font-size="17" font-weight="600" fill="#171717">GRU（时序）</text>
+  <text x="842" y="216" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">40 日价格 / 成交量序列</text>
+  <text x="842" y="238" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">上限 ≤ 25%（非线性合计 ≤ 40%）</text>
+
+  <rect x="100" y="340" width="1020" height="130" rx="8" fill="#171717"/>
+  <text x="122" y="382" font-size="17" font-weight="600" fill="#ffffff">因果路由器（动态 · 有界 · 平滑）</text>
+  <text x="122" y="410" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#a1a1a1">IN 滞后 OOF RankIC · top-bottom 收益 · 信号协方差 · 换手成本 · 上一期权重</text>
+  <text x="122" y="434" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#a1a1a1">OUT 三个专家的当期权重（受上下限约束）；证据不足时压到接近 0</text>
+
+  <rect x="100" y="530" width="300" height="120" rx="8" fill="#ffffff" stroke="#ebebeb" stroke-width="1.5"/>
+  <text x="122" y="570" font-size="17" font-weight="600" fill="#171717">合成 Alpha</text>
+  <text x="122" y="596" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">加权合成 + 截面标准化</text>
+  <text x="122" y="618" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">覆盖率与自相关检查</text>
+
+  <rect x="460" y="530" width="300" height="120" rx="8" fill="#ffffff" stroke="#ebebeb" stroke-width="1.5"/>
+  <text x="482" y="570" font-size="17" font-weight="600" fill="#171717">风险与优化</text>
+  <text x="482" y="596" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">类 Barra 风险模型 + TE 硬约束</text>
+  <text x="482" y="618" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">Clarabel / Gurobi</text>
+
+  <rect x="820" y="530" width="300" height="120" rx="8" fill="#ffffff" stroke="#ebebeb" stroke-width="1.5"/>
+  <text x="842" y="570" font-size="17" font-weight="600" fill="#171717">组合输出</text>
+  <text x="842" y="596" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">目标权重 · 主动权重</text>
+  <text x="842" y="618" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="12" fill="#767676">TE 校准与诊断</text>
+
+  <path d="M250 270 V334" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M610 270 V334" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M970 270 V334" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M250 470 V524" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M610 470 V524" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M970 470 V524" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M400 590 H454" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M760 590 H814" stroke="#a1a1a1" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <path d="M94 210 H58 V405 H94" stroke="#171717" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#ad)"/>
+  <text x="40" y="330" font-family="'DejaVu Sans Mono',Consolas,monospace" font-size="11" letter-spacing="0.5" fill="#171717" transform="rotate(-90 40 330)">OOF HISTORY / EXPERT SCORES</text>
+</svg>
