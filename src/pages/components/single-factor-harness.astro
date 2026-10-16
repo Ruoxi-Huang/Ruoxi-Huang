@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -66,6 +67,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="single_factor_wvad"
+          altZh="WVAD 单因子体检：五分组年化收益没有单调性，多空净值（净）全程下行至 0.12"
+          altEn="WVAD health check: no monotonicity across the five groups, and the net long-short NAV falls to 0.12"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="体检实例：WVAD，2005-01 – 2026-07 的 198 个有效期，单边成本 10bp。a 五分组年化收益（净）——两侧深黑为多空组合实际交易的两端（Q1 / Q5），中间三组为参照；收益自 +5.3% 升至 +13.2% 再落到 −5.3%，单调性 −0.3，没有可用方向。b 多空组合净值（净）——期初 1.00，期末 0.12，198 期中仅 26.8% 为正；RankIC 均值 −0.0405，Newey-West t 值 −9.19。该因子判定为不通过。"
+            en="One instance: WVAD, 198 valid periods from 2005-01 to 2026-07 at 10bp one-way cost. a — group annualised return (net): the dark bars are the two legs the long-short actually trades (Q1 and Q5) and the middle three are context; returns run +5.3% → +13.2% → −5.3% with a monotonicity of −0.3, so there is no usable direction. b — net long-short NAV starts at 1.00 and ends at 0.12, positive in only 26.8% of the 198 periods; mean RankIC is −0.0405 with a Newey-West t of −9.19. The factor fails the screen."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}components/factor-factory/`}>

@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -46,8 +47,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="原文正文受访问验证限制、无法直接获取，因此以本机 40 页演示稿逐页核对，并与公开摘要交叉验证；复核范围限于构造逻辑与适用边界，未复算原报告的具体参数。"
-              en="The original article sits behind an access check and cannot be retrieved directly, so this review works from the 40-page deck held locally, checked page by page and cross-validated against the public abstract. The review covers the construction logic and its applicability boundary, not a recomputation of the report's own parameters."
+              zh="原文正文受访问验证限制、无法直接获取，因此按本机 40 页演示稿复现方法链路：14 个方向化风格组合、60 项组合级价量特征、过去 5 年训练、每 10 周重训的随机森林筛选，静态与动态三因子轮动，以及最新一期约束优化；收益扣单边换手 10bp。原报告未披露完整风格因子公式、随机森林超参数与全部优化参数，本地也没有可审计的 Wind 宏观状态序列，因此宏观共振模块未实现，不作伪造。"
+              en="The original article sits behind an access check, so the method chain is reproduced from the 40-page deck held locally: 14 directional style portfolios, 60 portfolio-level price-volume features, a random-forest screen retrained every ten weeks on a trailing five-year window, static and dynamic three-factor rotation, and the latest constrained optimisation, with 10bp one-way turnover charged. The report does not disclose the full style-factor formulas, the random-forest hyper-parameters or every optimisation parameter, and no auditable Wind macro-state series exists locally, so the macro-resonance module is left unimplemented rather than faked."
             />
           </div>
         </div>
@@ -56,8 +57,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="构造路径可以复现；原报告的适用边界在同一数据上亦成立：月频聚合在沪深 300 有效，在中证 500 明显减弱。"
-              en="The construction path reproduces, and the report's applicability boundary also holds on this data: monthly aggregation remains effective on CSI 300 and degrades markedly on CSI 500."
+              zh="方法链路可以复现，但收益水平普遍低于报告披露值：因子动量低 1.86–4.71pp，静态多维低 3.67–4.57pp。动态多维策略在中证 1000 上最强（年化 12.95%、夏普 0.55），在沪深 300 上仅 1.55%。"
+              en="The method chain reproduces, but the levels sit below the reported ones: factor momentum is 1.86–4.71pp lower and static multidimensional 3.67–4.57pp lower. The dynamic multidimensional strategy is strongest on CSI 1000 (12.95% annualised, 0.55 Sharpe) and weakest on CSI 300 at 1.55%."
             />
           </div>
         </div>
@@ -66,12 +67,27 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="结论基于演示稿而非正文，个别参数口径无法逐项对齐，因此仅作方向性判断；共振强度本身没有独立的样本外检验。"
-              en="Because the source is a deck rather than the article, some parameter definitions cannot be aligned item by item, so this remains a directional reading. The resonance measure itself receives no independent out-of-sample test here."
+              zh="本地实现与原报告的样本边界、基础因子口径与交易成本并不完全相同，因此差值只能用于诊断，不能解释为对原报告的否证；缺可审计的宏观状态序列，宏观共振模块无法复现；共振强度本身没有独立的样本外检验。"
+              en="The local implementation shares neither the sample boundaries, the underlying factor definitions nor the trading-cost convention of the original, so the gaps are diagnostic only and must not be read as a refutation. The absence of an auditable macro-state series leaves the macro-resonance module unreproduced, and the resonance measure itself receives no independent out-of-sample test."
             />
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="factor_resonance"
+          altZh="本地方法复现与原报告披露值的差值，以及动态多维策略在三个股票池的年化收益"
+          altEn="Difference between the local reproduction and the reported levels, and the dynamic multidimensional strategy across three universes"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="方法复现的对照，2016-01 – 2026-04（中证 1000 的动态策略自 2019-12 起），收益扣单边换手 10bp。a 本地复现年化收益减去报告披露值——深黑为因子动量、浅灰为静态多维，两个策略在三个股票池上都是负值，因此图中全部落在零线以下。b 动态多维策略的年化收益——深黑为中证 1000（12.95%），浅灰为中证 500（4.42%）与沪深 300（1.55%）。两者的样本边界与成本口径并不相同，差值只能用于诊断，不构成对原报告的否证。"
+            en="Reproduction against the reported figures, 2016-01 to 2026-04 (the CSI 1000 dynamic strategy starts 2019-12), with 10bp one-way turnover charged. a — local annualised return minus the reported level: solid ink is factor momentum and light grey static multidimensional, and both are negative in all three universes, so every bar sits below zero. b — the dynamic multidimensional strategy by universe: ink for CSI 1000 (12.95%), light grey for CSI 500 (4.42%) and CSI 300 (1.55%). Sample boundaries and cost conventions differ, so the gaps are diagnostic and do not amount to a refutation of the report."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={base}>
