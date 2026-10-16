@@ -66,6 +66,39 @@ references/*.md                           早期参考过的设计体系，不�
 页面里所有图片与链接都用 `import.meta.env.BASE_URL` 拼，所以子路径部署也不会断图。
 构建日志在仓库 **Actions** 页，失败时先看那一步的输出。
 
+### 不想用命令行？两条替代路径
+
+网页上传本身也是一次 git 提交，所以两条路都可行。区别在于你上传的是**源码**还是
+**构建产物**，两者不能混。
+
+**路径 A（推荐）：上传源码，让 GitHub 自动构建**
+
+1. 仓库页面 **Add file → Upload files**，把 `portfolio/` 里的内容拖进去，但**不要**
+   拖 `node_modules/`、`dist/`、`.preview/`。
+2. 确认 `.github/workflows/deploy.yml` 进了仓库。浏览器拖文件夹一般会带上 `.github`；
+   如果没带上，就用 **Add file → Create new file**，文件名直接输入
+   `.github/workflows/deploy.yml`（GitHub 会自动建目录），再把本仓库里该文件的内容粘进去。
+3. **Settings → Pages → Source** 选 **GitHub Actions**。之后每次提交都会自动构建部署。
+
+**路径 B：上传构建产物，完全不跑 CI**
+
+1. 先在本地按仓库名构建（`<repo>` 换成你的仓库名；部署在用户站则去掉这一行）：
+
+   ```powershell
+   cd portfolio
+   $env:BASE_PATH='/<repo>'
+   npm run build
+   ```
+
+   这一步不能省：产物里的链接是绝对路径，base 不对会全站断链。
+2. 把 `dist/` **里面的内容**（`index.html`、`_astro/`、`figures/`、`diagrams/`、
+   `notes/`、`components/`、`projects/`、`.nojekyll`）上传到仓库的发布根目录
+   （仓库根目录或 `docs/`）。`.nojekyll` 必须存在，否则 GitHub 的 Jekyll 会丢掉
+   `_astro/`，页面会没有样式。
+3. **Settings → Pages → Source** 选 **Deploy from a branch**，再选分支与目录。
+
+代价是：仓库里存的是构建产物，改内容要重新构建再上传，历史记录也不如源码清晰。
+
 ## 数据图怎么重新生成
 
 数据图脚本在上一层仓库的 `scripts/portfolio/` 下，需要在那个 Python 环境里跑；
