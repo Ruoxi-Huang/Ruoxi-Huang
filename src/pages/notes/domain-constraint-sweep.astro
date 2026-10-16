@@ -40,8 +40,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="《使用因子分域提升指数增强组合超额收益》（申万金工，2026-06）：先按风格因子（波动性、流动性、估值、动量、反转、市值）把股票池分为低、高两组，比较因子在两组的选股效果，发现成长、盈利、波动性、动量等因子在高组内更有效，因而对高组放松个股权重偏离约束、对低组维持或收紧；改进结论在中证 500 指增组合上给出，并在沪深 300、中证 1000 与另一套选股模型上复验。"
-              en="“Using factor domains to improve excess return in enhanced-index portfolios” (SWS, 2026-06): the universe is split into low and high groups by a style factor (volatility, liquidity, valuation, momentum, reversal, size); factor performance is compared across the two groups, and growth, profitability, volatility and momentum prove stronger in the high group, so the per-name deviation constraint is loosened for the high group and held or tightened for the low group. The improvement is shown on a CSI 500 enhanced-index portfolio and re-tested on CSI 300, CSI 1000 and a second stock-selection model."
+              zh="同一体系的两份材料。《使用因子分域提升指数增强组合超额收益》（申万金工，2026-06）：按风格因子（波动性、流动性、估值、动量、反转、市值）把股票池分为低、高两组，比较因子在两组的选股效果，发现成长、盈利、波动性、动量等在高组内更有效，因而对高组放松个股权重偏离约束、对低组维持或收紧，并在沪深 300、中证 1000 与另一套选股模型上复验。《量化组合的偏度问题》（2026-08）：给出更细的规则集——波动率分层偏离（高波 60% 组放宽、低波 40% 组收紧）、SSD 大于 0.05 时改用波动五组中性、极值前 10% 中性。"
+              en="Two documents from the same research group. “Using factor domains to improve excess return in enhanced-index portfolios” (SWS, 2026-06): the universe is split into low and high groups by a style factor (volatility, liquidity, valuation, momentum, reversal, size); factor performance is compared across the two groups, growth, profitability, volatility and momentum prove stronger in the high group, so the per-name deviation constraint is loosened for the high group and held or tightened for the low, with re-tests on CSI 300, CSI 1000 and a second selection model. “The skew problem in quantitative portfolios” (2026-08): a finer rule set — layered volatility deviation (loosen the high-volatility 60%, tighten the low-volatility 40%), switch to five-group volatility neutralisation once SSD exceeds 0.05, and neutralise the extreme top 10%."
             />
           </div>
         </div>
@@ -50,8 +50,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           <div class="body">
             <Bi
               tag="p"
-              zh="将该约束迁移到自有 alpha 与生产风险模型上逐一扫描（分层 2/5 档、五组中性、三类前 10% 中性、两种组合方案），并将方向与分位反转后再测一次；结果显示反转方向有效，原报告方向无效。"
-              en="The scheme is transplanted onto our own alpha and production risk model and swept scheme by scheme (two- and five-bucket layering, five-group neutralisation, three top-10% neutralisations, two combined schemes), then re-run with the direction and the quantiles reversed; the reversed direction works and the reported direction does not."
+              zh="把两份材料给出的约束族（分层偏离 2/5 档、五组中性、动量 / 市值 / 波动前 10% 中性、两种组合方案）整体迁移到自有 alpha 与生产风险模型上逐一套测试，再把方向与分位反转后测一次；结果显示反转方向有效，报告方向无效。"
+              en="The whole constraint family the two documents define (two- and five-bucket layering, five-group neutralisation, momentum / size / volatility top-10% neutralisation, two combined schemes) is transplanted onto our own alpha and production risk model and swept scheme by scheme, then re-run with the direction and the quantiles reversed; the reversed direction works and the reported one does not."
             />
           </div>
         </div>
