@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -82,6 +83,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="timing_momentum"
+          altZh="事件分组次均超额收益（毛/净），以及多头相对行业等权基准的累计超额"
+          altEn="Mean excess return by event group (gross and net), and the cumulative excess of the long leg over the equal-weight sector benchmark"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="复现结果，2013-01 – 2026-07，中证一级行业，成本按单边 15bp 计提。a 五个事件分组的次均超额收益：浅灰为毛、深黑为净（仅净口径标注数值），由 D1 的 −1.40% 单调升至 D5 的 +0.74%，事件的排序信息确实存在。b 多头组合相对行业等权基准的累计相对净值：期初 1.000，期末 1.908；但多头约 42% 的交易日空仓，不能与长期持有基准直接比较，也与报告所称的绝对收益（概念精选组合年化 60.55%）不是同一口径。"
+            en="Reproduction, 2013-01 to 2026-07, CITIC level-1 industries, 15bp one-way costs. a — mean excess return of the five event groups: light grey gross, ink net (values printed for the net series only), rising monotonically from −1.40% in D1 to +0.74% in D5, so the events do carry ordering information. b — cumulative relative NAV of the long leg against the equal-weight industry benchmark: 1.000 at the start and 1.908 at the end, though the long leg is flat on about 42% of trading days, cannot be compared with a buy-and-hold benchmark directly, and is not the same quantity as the report's absolute claim (60.55% annualised for the thematic selection portfolio)."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}notes/factor-resonance/`}>

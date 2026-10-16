@@ -138,6 +138,10 @@ matplotlib defaults (blue bars, grey grid) and English-only. A note page gets it
 figure by re-drawing the same results through `note_figures.py`, so the encoding,
 the value ladder and the bilingual labels match the rest of the site.
 
+Structure diagrams follow the same rule: `scripts/portfolio/site_diagrams.py`
+emits the component page's data-flow SVG in both languages from one template, so
+the two versions cannot drift apart.
+
 Hatch fills were tried for the rejected alternative and removed — the
 diagonal strokes of a clipped bar cross the panel title in the PDF stream and
 the collision audit fails on a stroke no reader can see. The number printed on

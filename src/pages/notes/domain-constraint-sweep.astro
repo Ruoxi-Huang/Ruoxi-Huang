@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -96,6 +97,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="domain_constraint_sweep"
+          altZh="各约束方案相对 base 的 IR 变化，以及 20 组安慰剂中性化的 ΔIR 分布与最优方案位置"
+          altEn="Information-ratio change by scheme, and the ΔIR distribution of 20 placebo neutralisations with the best scheme marked"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="约束扫描，2021-02 – 2026-07，66 期，TE 上限 15%、单边成本 5bp。a 各方案相对 base 的 IR 变化——深黑为最终采用的组合方案（动量前 20% 中性 + 反向五档波动分层，ΔIR +0.145），其余为该轮扫描的其他方案；报告方向的分层与中性化方案全部落在零线左侧。b 安慰剂检验：20 组随机中性化的 ΔIR 分布（浅灰直方图，中灰细线为分布均值），深黑竖线为组合方案的位置，落在右尾之外。"
+            en="Constraint sweep, 2021-02 to 2026-07, 66 periods, 15% TE cap and 5bp one-way costs. a — information-ratio change versus base by scheme: ink marks the combined scheme finally adopted (neutralise the top 20% by momentum plus reverse five-bucket volatility layering, ΔIR +0.145) and the rest are the other candidates in that run, with every scheme in the report's direction left of zero. b — placebo test: the ΔIR distribution of 20 random neutralisations (light grey histogram, mid-grey line at the mean) with the adopted scheme's position marked in ink, beyond the right tail."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}notes/three-part-strategy/`}>

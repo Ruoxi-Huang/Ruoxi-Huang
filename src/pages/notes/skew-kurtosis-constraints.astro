@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -86,6 +87,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="skew_kurtosis_constraints"
+          altZh="生产组合的波动分组主动暴露，以及报告口径六套约束方案的 ΔIR"
+          altEn="Active exposure by volatility group, and the ΔIR of the six constraint schemes in the report's direction"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="两幅图对应两件事。a 生产组合的波动分组主动暴露：最低波组 +8.71%、最高波组 −9.20%、波动前 10% −5.78%，方向是低波超配。b 报告口径的六套约束方案相对 base 的 ΔIR——全部为负，说明这些约束在本组合上不是改进手段。样本 2021-02 – 2026-07、66 期，TE 上限 15%、单边成本 5bp。"
+            en="Two panels for two questions. a — the production portfolio's active exposure by volatility group: +8.71% in the lowest-volatility group, −9.20% in the highest and −5.78% in the top decile, i.e. a low-volatility overweight. b — the ΔIR of the six constraint schemes defined in the report's direction: every one is negative, so these constraints are not an improvement lever for this portfolio. Sample 2021-02 to 2026-07, 66 periods, 15% TE cap and 5bp one-way costs."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}notes/domain-constraint-sweep/`}>

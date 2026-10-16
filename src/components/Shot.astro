@@ -7,13 +7,15 @@ interface Props {
   name: string;
   altZh: string;
   altEn: string;
+  /** File extension of the asset pair; defaults to the rendered PNGs. */
+  ext?: string;
 }
 
-const { name, altZh, altEn } = Astro.props;
+const { name, altZh, altEn, ext = "png" } = Astro.props;
 // 子路径部署时 BASE_URL 不带结尾斜杠，统一补上。
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
-const zh = `${base}figures/${name}_zh.png`;
-const en = `${base}figures/${name}_en.png`;
+const zh = `${base}figures/${name}_zh.${ext}`;
+const en = `${base}figures/${name}_en.${ext}`;
 ---
 
 <img

@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -76,6 +77,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="three_part_strategy"
+          altZh="三部分策略各自的累计主动净值：市场择时、戴维斯双击、沪深 300 增强"
+          altEn="Cumulative active NAV of each of the three strategies: market timing, Davis double-play and CSI 300 enhancement"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="三部分各自的累计主动净值（期初 = 1），三条曲线的时间窗不同：市场择时 2012-02 – 2026-07（相对中证 800），戴维斯双击与沪深 300 增强 2010-02 – 2026-07（后者相对历史权重复制组合）。期末值分别是 0.96、7.41 与 1.67——戴维斯双击的绝对水平最高，但它的换手与成交假设也最理想；市场择时最终低于 1，与「暂不采用」的判定一致。"
+            en="Cumulative active NAV of each part (starting at 1). The windows differ: market timing runs 2012-02 to 2026-07 against the CSI 800, while the Davis double-play and the CSI 300 enhancement run 2010-02 to 2026-07 (the latter against a historical-weight replication). The end values are 0.96, 7.41 and 1.67 — the double-play has by far the highest level but also the most idealised turnover and fill assumptions, while market timing ends below 1, consistent with the decision not to adopt it."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}notes/timing-momentum/`}>

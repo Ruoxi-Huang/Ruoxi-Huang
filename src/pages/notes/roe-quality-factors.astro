@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -86,6 +87,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="roe_quality_factors"
+          altZh="三层因子的 RankIC 均值与 ICIR，以及三层的逐年平均 RankIC"
+          altEn="Mean RankIC and ICIR of the three layers, and their annual mean RankIC"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="递进比较，2018-01 – 2026-08，同一条股票截面（每期 2,279–4,908 只）、103 个有效月份。a 三层因子的 RankIC 均值与 ICIR：仅稳定性 1.95%（ICIR 0.386）、加入 ROE 水平 2.66%（0.265）、再加入四项 3.69%（0.235），均值上升而 ICIR 与方向正确率同步下降。b 逐年平均 RankIC：三层在 2021 与 2025 同时下行，增强层两年为负（−1.43%、−0.87%），说明提升并非跨年一致。"
+            en="Progressive comparison, 2018-01 to 2026-08, on one identical cross-section (2,279–4,908 names per period) over 103 valid months. a — mean RankIC and ICIR by layer: stability alone 1.95% (ICIR 0.386), adding the ROE level 2.66% (0.265), adding four more factors 3.69% (0.235), so the mean rises while ICIR and hit rate fall. b — annual mean RankIC: all three layers drop in 2021 and 2025, and the enhanced layer is negative in both years (−1.43%, −0.87%), so the improvement is not consistent across years."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}notes/skew-kurtosis-constraints/`}>

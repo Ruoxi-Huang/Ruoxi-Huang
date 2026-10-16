@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -66,6 +67,22 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="c1_factor_pipeline"
+          ext="svg"
+          altZh="因子工厂的数据流：数据源、因子构建、标准化与中性化、产出 149 个标准化因子面板，以及每次更新后的校验项"
+          altEn="The factor factory's data flow: sources, factor build, standardisation and neutralisation, the 149-panel output, and the checks run on every update"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="组件的数据流：数据源 → 因子构建 → 标准化与中性化 → 产出 149 个标准化因子面板（深黑一格），底部是每次更新后执行的校验项。数量取自 data/generated_factors/standardized 的实际文件计数。"
+            en="The component's data flow: sources → factor build → standardisation and neutralisation → the 149 standardised factor panels (the inverted box), with the checks run on every update along the bottom. Counts come from the actual file count in data/generated_factors/standardized."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={base}>

@@ -108,6 +108,7 @@ references/*.md                           早期参考过的设计体系，不�
 python scripts/portfolio/build_p2_expert_oof_dataset.py   # 只在数据需要重建时跑
 python scripts/portfolio/p2_figures.py                    # 出图 + 对齐/碰撞审计
 python scripts/portfolio/note_figures.py                  # 研究笔记配图（读 outputs/ 里已落盘的结果）
+python scripts/portfolio/site_diagrams.py                 # 组件页的流程图（SVG，中英同源）
 ```
 
 出图的脚本会顺带跑口径检查：面板对齐不通过会直接报错，PDF 碰撞审计的结论会打印在

@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Bi from "../../components/Bi.astro";
+import Shot from "../../components/Shot.astro";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -86,6 +87,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
           </div>
         </div>
       </div>
+
+      <figure>
+        <Shot
+          name="top50_objective"
+          altZh="开发段与测试段中 XGBoost、GRU 相对 Linear 的增量（RankIC 与 20% 头尾差两个口径）"
+          altEn="Increment of XGBoost and GRU over Linear in the development and test blocks, under both RankIC and the top-minus-bottom 20% spread"
+        />
+        <figcaption>
+          <Bi
+            tag="span"
+            zh="专家增量按口径与时段拆分，数据取自冻结运行的 125 期成熟预测（2015-01 – 2026-05）。a 开发段（96 期）：XGBoost 与 GRU 在 RankIC（深黑）与 20% 头尾差（浅灰）两个口径上都高于 Linear（+0.68pp / +0.26pp 与 +0.40pp / +0.37pp）。b 测试段（29 期）：两者同时转负（XGBoost −1.58pp / −1.63pp，GRU −0.81pp / −0.43pp），这正是「XGB 未通过验收」的证据，也说明专家强弱随口径与时段而变。"
+            en="Expert increments split by metric and block, from the frozen run's 125 matured predictions (2015-01 to 2026-05). a — development block (96 periods): XGBoost and GRU beat Linear on both RankIC (ink) and the top-minus-bottom 20% spread (light grey), at +0.68pp / +0.26pp and +0.40pp / +0.37pp. b — test block (29 periods): both turn negative at the same time (XGBoost −1.58pp / −1.63pp, GRU −0.81pp / −0.43pp), which is the evidence behind “XGBoost did not clear acceptance” and shows that expert strength depends on both the metric and the block."
+          />
+        </figcaption>
+      </figure>
 
       <div class="pager">
         <a href={`${base}notes/rl-portfolio-optimisation/`}>
